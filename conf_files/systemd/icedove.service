@@ -1,0 +1,14 @@
+[Unit]
+Description=Icedove
+After=decisco.service
+
+[Service]
+ExecStart=/usr/bin/icedove
+Restart=always
+RestartSec=5
+Environment=DISPLAY=:0
+Environment=NSPR_LOG_MODULES=imap:5,smpt:5,import:5,timestamp
+Environment=NSPR_LOG_FILE=/tmp/imap.log
+
+[Install]
+WantedBy=default.target

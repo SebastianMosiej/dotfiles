@@ -1,0 +1,10 @@
+[Unit]
+Description=Nitrogen - fast and lightweight desktop background browser and setter
+After=default.target
+
+[Service]
+ExecStart=/usr/bin/nitrogen --restore
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target

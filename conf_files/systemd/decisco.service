@@ -1,0 +1,11 @@
+[Unit]
+Description=Decisco Gateway Script
+
+[Service]
+ExecStart=/usr/local/bin/decisco/decisco.py -c /usr/local/bin/decisco/credentials
+WorkingDirectory=/usr/local/bin/decisco
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

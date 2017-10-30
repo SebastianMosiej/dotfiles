@@ -1,0 +1,79 @@
+#!/bin/bash 
+# -xv
+
+
+if [ -z ${DISPLAY:+x} ]; then
+  logger -t displays "DISPLAY is unset";
+  export DISPLAY=":0"
+fi
+
+if [ -z ${XAUTHORITY:+x} ]; then
+  logger -t displays "XAUTHORITY is unset";
+  export XAUTHORITY=/home/user/.Xauthority
+fi
+
+xrandrOut=$(xrandr)
+
+connectedDisp=$(echo "${xrandrOut}" | grep -w 'connected' | wc -l)
+hdmiName=$(echo "${xrandrOut}" | grep -w 'connected' | grep -i 'HDMI' | awk '{print $1}')
+vgaName=$(echo "${xrandrOut}" | grep -w  'connected' | grep -i 'VGA' | awk '{print $1}')
+edpName=$(echo "${xrandrOut}" | grep -w 'connected' | grep -i 'EDP' | awk '{print $1}')
+
+activeDisplays=$(echo "${xrandrOut}" | grep " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/" | tr '\n' ' ')
+displayFile='/tmp/.displays'
+primaryDisplay=""
+
+if [[ -f "${displayFile}" ]]; then
+    oldDisplays=$(cat "${displayFile}")
+else
+    oldDisplays=""
+fi
+
+if [[ "${oldDisplays}" != "${activeDisplays}" ]]; then
+    change="yes"
+else
+    change="no"
+fi
+
+if [[ "$activeDisplays" =~ "${hdmiName}" ]]; then
+  primaryDisplay="${hdmiName}"
+# Only one internal
+elif [[ "$activeDisplays" =~ "${edpName}" ]]; then
+  primaryDisplay="${edpName}"
+# External, VGA
+elif [[ "$activeDisplays" =~ "${vgaName}" ]]; then
+  primaryDisplay="${vgaName}"
+fi
+
+if [[ "${change}" == "yes" ]]; then
+  primaryMode=$(xrandr | grep "${primaryDisplay}" -A 1 | tail -n 1 | awk -F ' ' '{print $1}')
+  #decide on which side of main screen place secondary screen
+
+  cmd="xrandr"
+  for displayName in ${activeDisplays}; do
+    if [[ "${displayName}" != "${primaryDisplay}" ]]; then
+      cmd+=" --output ${displayName}"
+      if [[ "$connectedDisp" -gt "1" ]]; then
+        cmd+=" --left-of ${primaryDisplay}"
+      fi
+    else
+      cmd+=" --output ${displayName} --primary --preferred --mode ${primaryMode}"
+    fi
+  done
+
+  i3_pid=`pgrep '\bi3\b'`
+  if [[ -z $i3_pid ]]; then
+    # add wait for 3 sec in backgroun before another attempt
+    logger -t displays "i3 didn't start"
+    echo "I3 didn't start"
+    exit 1
+  fi
+  notify-send -u normal "Change display to \"${primaryDisplay}\"." -t 10
+  killall -SIGSTOP i3
+  ${cmd}
+  killall -SIGCONT i3
+  i3-msg restart
+  nitrogen --restore
+
+  echo "${activeDisplays}" > "${displayFile}"
+fi

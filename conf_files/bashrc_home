@@ -1,0 +1,50 @@
+alias mkdir='mkdir -pv'
+alias rsyncp='rsync -r --progress -u'
+alias status='svn status | grep -P '\''^(?=.{0,6}[ADM])'\'''
+alias conflicts='svn status | grep -P '\''^(?=.{0,6}C)'\'''
+alias rm_unversioned='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -r'
+alias plantuml='java -jar ~/plantuml/plantuml.jar'
+alias links='find . -maxdepth 1 -type l -ls'
+alias cscope='cscope -RbqUuv'
+alias xrdbm="xrdb -merge ~/.Xresources"
+
+#export TERM=screen-256color
+alias tmux='tmux -2'
+
+export CSCOPE_EDITOR=/usr/bin/vim
+
+export WINEARCH='win32'
+export WINEPREFIX=$HOME'/.wineprefix/evernote'
+export WINEPREFIX2=$HOME'/.wineprefix/evernote_2'
+export EVERNOTE_PATH='/drive_c/Program\ Files/Evernote/Evernote'
+alias evernote='(wineserver -k;cd '$WINEPREFIX$EVERNOTE_PATH'; wine Evernote.exe &> '$WINEPREFIX'/log &)'
+alias openconnect_nsn='cd ~/gdrive/Certificates;sudo openconnect --config=oc_config nra-emea-de-muc-qa-1.remoteaccess.nsn.com'
+alias openconnect_nsn1='cd ~/gdrive/Certificates;sudo openconnect --config=oc_config nra-emea-fi-esp-vip.net.nokia.com'
+alias xclip='xclip -selection clipboard'
+alias less='less -R'
+alias git_tanglor='git config --local user.name "T4ng10r"; git config --local user.email tanglor@poczta.onet.pl '
+
+_GREP_OPTIONS_="--color=always --exclude=tags --binary-files=without-match"
+#alias grep="grep $_GREP_OPTIONS_"
+function grep_cpp
+{
+  #find . \( -iname '*.cpp' -o -iname '*.h' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
+  grep -srn "$1" "$2" --exclude-dir=".svn" --color=always --include=*.{cpp,h} *;
+}
+
+function grep_log
+{
+  find . \( -iname '*pm_2_system.log' -o -iname '*pm_1_system.log' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
+}
+
+function CamelCase2Underscore()
+{
+  local underscore=`echo $1 | sed 's/\([A-Z]\)/_\l\1/g' | sed 's/^_\([a-z]\)/\1/g'`
+  mv $1 $underscore
+}
+
+echo_time() {
+    echo `date +'%b %e %R '` "$@"
+}
+
+#export PATH=$PATH:~/bin

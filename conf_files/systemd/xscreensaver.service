@@ -1,0 +1,13 @@
+[Unit]
+Description=XScreenSaver
+After=icedove.service teamviz.service
+After=teamviz.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/xscreensaver -no-splash
+ExecStop=/usr/bin/xscreensaver-command -exit
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target

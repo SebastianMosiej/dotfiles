@@ -1,0 +1,9 @@
+#!/bin/bash -xv
+
+xrandrOut=$(xrandr)
+primaryDisplay=$(echo "${xrandrOut}" | grep " primary" | cut -f1 -d' ')
+
+if [[ -n ${primaryDisplay} ]]; then
+  xrandr --output ${primaryDisplay} --rotate $1
+fi
+

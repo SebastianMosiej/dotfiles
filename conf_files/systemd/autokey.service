@@ -1,0 +1,11 @@
+[Unit]
+Description=Autokey - Keyboard automation
+After=default.target
+
+[Service]
+ExecStart=/usr/bin/autokey
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target
+

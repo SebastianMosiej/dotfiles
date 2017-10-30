@@ -1,0 +1,11 @@
+[Unit]
+Description=TeamViz
+After=decisco.service
+After=icedove.service
+
+[Service]
+ExecStart=/opt/TeamViz/TeamViz
+WorkingDirectory=/opt/TeamViz/
+
+[Install]
+WantedBy=default.target

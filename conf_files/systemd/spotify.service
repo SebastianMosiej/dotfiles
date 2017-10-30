@@ -1,0 +1,12 @@
+[Unit]
+Description=Spotify - music streaming service
+After=icedove.service
+After=psi_plus.service
+
+[Service]
+ExecStart=/usr/bin/spotify
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target
+

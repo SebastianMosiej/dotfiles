@@ -1,0 +1,11 @@
+[Unit]
+Description=Rainlendar2
+After=decisco.service
+After=icedove.service
+
+[Service]
+ExecStart=/usr/bin/rainlendar2
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target

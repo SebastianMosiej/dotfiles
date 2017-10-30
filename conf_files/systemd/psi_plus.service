@@ -1,0 +1,13 @@
+[Unit]
+Description=Psi plus
+After=decisco.service
+After=icedove.service
+
+[Service]
+ExecStart=/usr/bin/psi-plus
+Restart=on-failure
+RestartSec=15
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target

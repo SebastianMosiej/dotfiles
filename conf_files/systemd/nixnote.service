@@ -1,0 +1,12 @@
+[Unit]
+Description=NixNote2
+After=icedove.service
+
+[Service]
+ExecStart=/usr/bin/nixnote2
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target
+
+

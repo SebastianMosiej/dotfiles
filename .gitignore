@@ -1,0 +1,9 @@
+bashrc_work
+config_scripts/
+vim_link_junction\ *
+*.xpi
+*.swp
+*.swo
+scripts/Evernote_*
+log
+

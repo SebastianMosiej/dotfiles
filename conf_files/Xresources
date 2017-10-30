@@ -1,0 +1,27 @@
+xterm*saveLines: 2000
+xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+XTerm*selectToClipboard: true
+xterm*boldFont: fixed
+XTerm.VT100.allowBoldFonts: false
+XTerm.VT100.boldMode: false
+XTerm.VT100.renderFont: true
+XTerm.VT100.faceName: lucida
+! Face size for normal:                                                                                         
+XTerm.VT100.faceSize:  14                                                                                       
+! ! Face sizes for alternates:                                                                                    
+! ! Unreadable:                                                                                                   
+XTerm.VT100.faceSize1:  12 
+! ! Tiny:                                                                                                         
+XTerm.VT100.faceSize2:  14 
+! ! Small:                                                                                                        
+XTerm.VT100.faceSize3:  20
+! ! Medium:                                                                                                       
+XTerm.VT100.faceSize4:  24
+! ! Large:                                                                                                        
+XTerm.VT100.faceSize5:  28
+! ! Huge:                                                                                                         
+XTerm.VT100.faceSize6:  32
+!------------------------------
+XTerm*Background: black
+XTerm*Foreground: white
+XTerm*metaSendsEscape: true
