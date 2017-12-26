@@ -170,7 +170,7 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-bindsym $mod+q exec iceweasel
+bindsym $mod+q exec google-chrome-stable
 bindsym $mod+Shift+w exec icedove
 bindsym $mod+p exec /usr/bin/displays
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
