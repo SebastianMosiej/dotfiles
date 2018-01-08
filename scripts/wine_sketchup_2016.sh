@@ -10,13 +10,13 @@ WINEPREFIX_DIR=$HOME'/.wineprefix'
 WINEPREFIX=$WINEPREFIX_DIR'/sketchup_2016'
 #cleanup wine desktop files
 grep -lr 'Exec.*sketchup' $HOME/.local/share/applications/ | xargs rm
-if [ -e $WINEPREFI ]; then
+if [ -e $WINEPREFIX ]; then
   rm -rf $WINEPREFIX
 fi
 
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX wine64 'wineboot'
-echo 'Install VCRUN'
 
+echo 'Install VCRUN'
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks vcrun2015
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks corefonts
 

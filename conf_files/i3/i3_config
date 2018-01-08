@@ -284,6 +284,7 @@ for_window [class="Iceweasel"] move to workspace $tag2
 for_window [instance="StarFire-Client"] floating enable
 for_window [class="Opera"] move to workspace $tag8
 for_window [class="Ristretto"] move to workspace $tag8
+for_window [class="mockplus.exe"] floating disable, sticky disable
 
 assign [class="Icedove"]  $tag1
 assign [class="Thunderbird"]  $tag1

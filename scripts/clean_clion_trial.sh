@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 #-xv
 
 for file in `find ~/ -type d -iname '.CLion*'`
