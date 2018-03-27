@@ -24,5 +24,7 @@ fi
 xrandr --output HDMI2 --primary
 xrandr --output HDMI1 --left-of HDMI2
 /opt/TeamViz/TeamViz &
+/usr/bin/blueman-applet &
+/usr/bin/google-chrome-stable &
 
 exec i3

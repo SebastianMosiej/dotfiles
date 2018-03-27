@@ -173,8 +173,10 @@ bindsym $mod+r mode "resize"
 bindsym $mod+q exec google-chrome-stable
 bindsym $mod+Shift+w exec icedove
 bindsym $mod+p exec /usr/bin/displays
+bindsym $mod+Shift+p exec /usr/bin/keepassxc
+bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
-bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen right"
+bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
 bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
 bindsym Control+$mod+l exec xscreensaver-command --lock
 
@@ -268,8 +270,8 @@ for_window [class="jetbrains-pycharm"] move to workspace $tag4
 for_window [class="jetbrains-idea-ce"] move to workspace $tag4
 for_window [class="jetbrains-rubymine"] move to workspace $tag4
 for_window [class="jetbrains-clion"] move to workspace $tag4
-for_window [class="Java" title="XMind"] move to workspace $tag4
-for_window [class="XMind"] move to workspace $tag4
+#for_window [class="Java" title="XMind"] move to workspace $tag4
+#for_window [class="XMind"] move to workspace $tag4
 #this is for Add ToDo dialog
 for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable, resize set 570px 500px
 # this is for ToDo lists

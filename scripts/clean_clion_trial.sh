@@ -1,6 +1,7 @@
 #!/bin/bash 
 #-xv
 
+echo "Parsing through CLion configuration files"
 for file in `find ~/ -type d -iname '.CLion*'`
 do
   if [ -e $file/config/eval/CLion*evaluation.key ]; then
@@ -10,7 +11,6 @@ do
   if [ -e $file/config/options/options.xml ]; then
     echo "Removing CLion options evaluation entry"
     sed -i"" '/property name="evlsprt.*" value=.*/d' $file/config/options/options.xml
-    #rm $file/config/options/options.xml
   fi
 done
 javaPref="~/.java/.userPrefs/jetbrains"

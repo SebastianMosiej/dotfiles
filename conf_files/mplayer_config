@@ -1,0 +1,25 @@
+slang=en,eng # Set language. 
+#vo=direct3d #
+double="yes"  #double buffering(recommended for subtitles)
+monitoraspect="16:9" #I'm on a widescreen laptop so keeps 4:3 content from stretching 
+hardframedrop="0" #Make sure hard frame drop is off but can turn on easily now
+#Truetype fonts rock! (sudo apt-get msttcorefonts) 
+ffactor="10" #black outline
+sub-fuzziness=1  # Find subtitle files. (1: load all subs containing movie name)
+sub-bg-alpha="0" #background color ala closed captions 
+sub-bg-color="0" #black to white
+subfont-outline=2.0  # Set font outline thickness. (default: 2)
+subfont-text-scale="3.7" #truetype font scaling
+subfont-blur="1" #Slight blur  
+subfont-encoding=unicode 
+unicode=yes  # Set subtitle file encoding.
+utf8=yes  # Set subtitle file encoding.
+subalign=2  # Set subtitle alignment at its position. (2: bottom)
+subfont-autoscale=2 # Set font size. (2: proportional to movie width) 
+ass = "1"
+ass-border-color=22222244 #border color
+ass-color=FFFF0000 #font color
+ass-font-scale=1.5
+osdlevel=3
+heartbeat-cmd="xscreensaver-command -deactivate >&- 2>&- &"
+af=scaletempo
