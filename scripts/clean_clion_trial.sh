@@ -4,10 +4,11 @@
 echo "Parsing through CLion configuration files"
 for file in `find ~/ -type d -iname '.CLion*'`
 do
-  if [ -e $file/config/eval/CLion*evaluation.key ]; then
-    echo "Removing CLion evaluation key"
-    rm $file/config/eval/*
-  fi
+  for eval_key in `find $file/config/eval/CLion*.evaluation.key`
+  do 
+    echo "Removing CLion evaluation key '$eval_key'"
+    rm $eval_key
+  done
   if [ -e $file/config/options/options.xml ]; then
     echo "Removing CLion options evaluation entry"
     sed -i"" '/property name="evlsprt.*" value=.*/d' $file/config/options/options.xml

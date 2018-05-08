@@ -15,7 +15,7 @@ order += "disk /home"
 order += "disk /"
 order += "run_watch DHCP"
 order += "run_watch VPN"
-#order += "wireless _first_"
+order += "wireless _first_"
 order += "ethernet _first_"
 #order += "battery 0"
 order += "load"
@@ -56,12 +56,12 @@ load {
 }
 
 disk "/" {
-        format = "/ %avail(%percentage_free)"
+        format = "/ free %avail(%percentage_free)"
         #format = " ¨ %avail(%percentage_free):/"
 }
 
 disk "/home" {
-        format = "home %avail(%percentage_used)"
+        format = "home free %avail(%percentage_used)"
         #format = " ¨ %avail(%percentage_used):home"
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 #-vx
 
 TARGET_VCODEC='libx264'
@@ -16,6 +16,7 @@ if [[ ! -e out ]];then
 fi
 
 function get_file_creation_seconds() {
+  #local time_correction="+ 60 minutes"
   local TZ=""
   time=`ffprobe $1 2>&1 | grep com.apple.quicktime.creationdate -m1 | cut -d : -f 2- | cut -d' ' -f 2-`
   if [[ -z $time ]]; then
@@ -29,8 +30,8 @@ function get_file_creation_seconds() {
       TZ="GMT"
     fi
   fi
-  seconds=`date -d "$time $TZ" +%s`
-  time=`date -d"$time $TZ" +'%Y-%m-%d_%H:%M:%S' | tr ":-" "__"`
+  seconds=`date -d "$time $TZ $time_correction" +%s`
+  time=`date -d"$time $TZ $time_correction" +'%Y-%m-%d_%H:%M:%S' | tr ":-" "__"`
 }
 
 function convert_mov_to_mp4() {
