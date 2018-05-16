@@ -5,7 +5,7 @@ echo "Parsing through CLion configuration files"
 for file in `find ~/ -type d -iname '.CLion*'`
 do
   if ls $file/config/eval/CLion*evaluation.key 1> /dev/null 2>&1; then
-    for eval_key in `find $file/config/eval/CLion.*evaluation.key`
+    for eval_key in `find $file/config/eval/CLion*evaluation.key`
     do 
       echo "Removing CLion evaluation key '$eval_key'"
       rm $eval_key

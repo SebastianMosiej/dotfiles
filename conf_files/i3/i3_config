@@ -102,15 +102,15 @@ set $tag6 "6: music"
 set $tag7 "7: rain"
 set $tag8 "8: docs"
 
-workspace $tag1 output HDMI2
-workspace $tag2 output HDMI2
-workspace $tag3 output HDMI2
-workspace $tag4 output HDMI2
-workspace $tag5 output HDMI2
-workspace $tag6 output HDMI1
-workspace $tag7 output HDMI1
-workspace $tag8 output HDMI1
-workspace 9 output HDMI1
+workspace $tag1 output HDMI1
+workspace $tag2 output HDMI1
+workspace $tag3 output HDMI1
+workspace $tag4 output HDMI1
+workspace $tag5 output HDMI1
+workspace $tag6 output HDMI2
+workspace $tag7 output HDMI2
+workspace $tag8 output HDMI2
+workspace 9 output HDMI2
 workspace 10 output eDP1
 
 # switch to workspace

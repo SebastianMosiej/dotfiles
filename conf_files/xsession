@@ -21,8 +21,8 @@ if [ -e /tmp/.displays ]; then
   rm /tmp/.displays
 fi
 #/usr/bin/displays &
-xrandr --output HDMI2 --primary
-xrandr --output HDMI1 --left-of HDMI2
+xrandr --output HDMI1 --primary
+xrandr --output HDMI1 --right-of HDMI2
 /opt/TeamViz/TeamViz &
 /usr/bin/blueman-applet &
 /usr/bin/google-chrome-stable &
