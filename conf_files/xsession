@@ -27,4 +27,7 @@ xrandr --output HDMI1 --right-of HDMI2
 /usr/bin/blueman-applet &
 /usr/bin/google-chrome-stable &
 
+xrandr --newmode "2560x1440_57.70"  299.47  2560 2744 3024 3488  1440 1441 1444 1488  -HSync +Vsync
+xrandr --addmode HDMI1 2560x1440_57.70
+xrandr --output HDMI1 --mode 2560x1440_57.70 --verbose
 exec i3
