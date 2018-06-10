@@ -7,10 +7,13 @@ if [[ ! -f $HOME/.nixnote/nixnote-1.conf ]]; then
   exit
 fi
 
-SECTION1="[ColumnHidden-Wide]"
-SECTION2="[ColumnHidden-Narrow]"
 COLUMNS_TO_HIDE=(altitude author dateCreated dateDeleted dateSubject hasEncryption hasTodo isDirty latitude lid longitude notebookLid notebook size thumbnail sourceApplication source sourceUrl tags reminderTime reminderTimeDone reminderOrder isPinned)
 COLUMNS_TO_DISPLAY=(title dateUpdated)
+COLUMNS_WIDTH=(noteTableLidPosition noteTableDateUpdatedPosition)
+eval "sed -i'' '0,/ColumnWidth-Narrow/! {s/noteTableLidPosition=[0-9]*/noteTableLidPosition=50/1}' $FILE"
+eval "sed -i'' '0,/ColumnWidth-Narrow/! {s/noteTableUpdatedPosition=[0-9]*/noteTableUpdatedPosition=150/1}' $FILE"
+eval "sed -i'' '0,/ColumnWidth-Narrow/! {s/noteTableTitlePosition=[0-9]*/noteTableTitlePosition=150/1}' $FILE"
+eval "sed -i'' '0,/ColumnWidth-Narrow/! {s/noteListWidth=[0-9]*/noteListWidth=330/1}' $FILE"
 
 for i in ${COLUMNS_TO_HIDE[@]}
 do
