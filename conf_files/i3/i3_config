@@ -10,6 +10,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $primary HDMI-0
+set $secondary DVI-D-0
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -102,15 +104,15 @@ set $tag6 "6: music"
 set $tag7 "7: rain"
 set $tag8 "8: docs"
 
-workspace $tag1 output HDMI1
-workspace $tag2 output HDMI1
-workspace $tag3 output HDMI1
-workspace $tag4 output HDMI1
-workspace $tag5 output HDMI1
-workspace $tag6 output HDMI2
-workspace $tag7 output HDMI2
-workspace $tag8 output HDMI2
-workspace 9 output HDMI2
+workspace $tag1 output $primary
+workspace $tag2 output $primary
+workspace $tag3 output $primary
+workspace $tag4 output $primary
+workspace $tag5 output $primary
+workspace $tag6 output $secondary
+workspace $tag7 output $secondary
+workspace $tag8 output $secondary
+workspace 9 output $secondary
 workspace 10 output eDP1
 
 # switch to workspace
@@ -210,6 +212,8 @@ bindsym XF86Calculator exec --no-startup-id
 bindsym 113 exec amixer -q sset Master toggle
 bindsym 114 exec amixer sset Master 5%-
 bindsym 115 exec amixer sset Master 5%+
+#//bindsym $mod+Shift+a exec "~/bin/tmux_window_naming"
+#bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
 
 set $mode_tools (s) screenshot, (t) filemanager, (n) nixnote2, (d) dev Thunderbird
@@ -270,8 +274,8 @@ for_window [class="jetbrains-pycharm"] move to workspace $tag4
 for_window [class="jetbrains-idea-ce"] move to workspace $tag4
 for_window [class="jetbrains-rubymine"] move to workspace $tag4
 for_window [class="jetbrains-clion"] move to workspace $tag4
-#for_window [class="Java" title="XMind"] move to workspace $tag4
-#for_window [class="XMind"] move to workspace $tag4
+for_window [class="Java" title="XMind"] move to workspace $tag8
+for_window [class="XMind"] move to workspace $tag8
 #this is for Add ToDo dialog
 for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable, resize set 570px 500px
 # this is for ToDo lists
