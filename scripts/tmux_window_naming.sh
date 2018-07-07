@@ -17,6 +17,9 @@ extract_project_name()
 {
   local window_name=${path##*projects\/}
   if [[ $window_name == $path ]]; then 
+    window_name=${path##*projekty\/}
+  fi
+  if [[ $window_name == $path ]]; then 
     window_name=${path##*python\/}
   fi
   window_name=${window_name%%\/*}
@@ -61,7 +64,8 @@ case "$path" in
   *rf_code*) extract_code_id;;
   *fpwork*) extract_code_id;;
   *work*) extract_code_id;;
-  *projects*) extract_project_name;;
+  *proje[kc]t[ys]*) extract_project_name;;
+  #*projects*) extract_project_name;;
   *project/python*) extract_project_name;;
 esac
 #process it
