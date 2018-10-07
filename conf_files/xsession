@@ -3,28 +3,22 @@ message "Starting user specific xsession"
 setxkbmap -option caps:escape
 lxtask &
 insync start &
-/usr/bin/xscreensaver -no-splash &
 spotify &
 sleep 1
 thunderbird &
-#iceweasel &
 sleep 2
-autokey &
+#autokey &
 #nitrogen --restore &
 feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300 &
 nixnote2 &
 rainlendar2 &
 sleep 1
-#opera &
-#ristretto /home/mosiej/projects/starfire_client/docs/uml &
 if [ -e /tmp/.displays ]; then
   rm /tmp/.displays
 fi
-#/usr/bin/displays &
-xrandr --output HDMI2 --primary
-xrandr --output HDMI1 --left-of HDMI2
-/opt/TeamViz/TeamViz &
+/usr/bin/xscreensaver -no-splash &
 /usr/bin/blueman-applet &
 /usr/bin/google-chrome-stable &
+/opt/XMind/XMind_amd64/XMind &
 
 exec i3
