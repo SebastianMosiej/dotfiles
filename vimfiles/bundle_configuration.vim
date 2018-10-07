@@ -16,10 +16,11 @@ let g:ctrlp_by_filename=1
 let g:ctrlp_working_path_mode = 'ra' "disable root looking feature
 "Specify an external tool to use for listing files instead of using Vim's globpath()
 if has("win32") || has("win16")
-  "install GnuWin Find and grep
-  "let g:ctrlp_user_command = 'find %s -type f -regex ".*\.\(java\|cpp\|h\|hh\|hpp\|cc\|xml\|ttcn3\|' .
-  "       \ 'rb\|js\|erb\|yml\)" -or -iname "Gemfile" '
-  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | find /V ".jazz"'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn|jazz5|jazzSched|generated_hal)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
   let g:cmake_project_generator='MinGW Makefiles'
 else
   let g:ctrlp_user_command = 'find %s -type f -regex ".*\.\(java\|cpp\|h\|hh\|hpp\|cc\|xml\|ttcn3\|' .
