@@ -13,13 +13,13 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " CTRL-P settings
 let g:ctrlp_by_filename=1
-let g:ctrlp_working_path_mode = '0' "disable root looking feature
+let g:ctrlp_working_path_mode = 'ra' "disable root looking feature
 "Specify an external tool to use for listing files instead of using Vim's globpath()
 if has("win32") || has("win16")
   "install GnuWin Find and grep
   "let g:ctrlp_user_command = 'find %s -type f -regex ".*\.\(java\|cpp\|h\|hh\|hpp\|cc\|xml\|ttcn3\|' .
   "       \ 'rb\|js\|erb\|yml\)" -or -iname "Gemfile" '
-  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
+  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | find /V ".jazz"'
   let g:cmake_project_generator='MinGW Makefiles'
 else
   let g:ctrlp_user_command = 'find %s -type f -regex ".*\.\(java\|cpp\|h\|hh\|hpp\|cc\|xml\|ttcn3\|' .
@@ -87,7 +87,7 @@ Plugin github_clone_type . 'kana/vim-operator-user'
 Plugin github_clone_type . 'Yggdroot/indentLine'
 Plugin github_clone_type . 'peterhoeg/vim-qml'
 Plugin github_clone_type . 'vim-scripts/Improved-AnsiEsc'
-
+Plugin github_clone_type . 'tikhomirov/vim-glsl'
 
 if (!has("win32") && !has("win16"))
   Plugin github_clone_type . 'christoomey/vim-tmux-navigator.git'
