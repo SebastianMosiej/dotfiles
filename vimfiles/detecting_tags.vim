@@ -42,3 +42,4 @@ set tags +=d:/Qt/Qt5.5.1/5.5/mingw492_32/tags
 set tags +=d:/boost_1_59_0/tags 
 set tags +=c:/MinGW/tags 
 set tags +=/usr/local/sdk_yocto/tags
+set tags +=d:\visteon_U611\tags 

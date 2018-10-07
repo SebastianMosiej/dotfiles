@@ -45,5 +45,7 @@ elseif getline(1) =~ '@startuml/>'
   set ft=plantuml
 elseif bufname("%") =~ "*\.js"
   setlocal foldmethod=indent 
+elseif bufname("%") =~ "msg_.*\.txt"
+  set ft=vusa_sx_testcase
 endif
 
