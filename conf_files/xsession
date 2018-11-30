@@ -19,6 +19,8 @@ fi
 /usr/bin/xscreensaver -no-splash &
 /usr/bin/blueman-applet &
 /usr/bin/google-chrome-stable &
+pushd /opt/XMind/XMind_amd64/
 /opt/XMind/XMind_amd64/XMind &
+popd
 
 exec i3

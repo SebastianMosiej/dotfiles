@@ -5,6 +5,9 @@ TARGET_VCODEC='libx264'
 TARGET_ACODEC='aac'
 OUTPUT_FORMAT="-hide_banner -c:a $TARGET_ACODEC -c:v $TARGET_VCODEC -ac 2 -ar 48000\
               -r 30 -strict -2 -s 1280x720 -profile:v high422 -pix_fmt yuvj422p -video_track_timescale 60000 -y"
+BRIGHTNESS=""
+#BRIGHTNESS1=", eq=brightness=0.20"
+TIME_CORRECTIONS=""
 
 which ffprobe > /dev/null || (echo "Lack of 'ffprobe'. Install it";exit)
 which ffmpeg > /dev/null || (echo "Lack of 'ffmpeg'. Install it";exit)
@@ -16,7 +19,7 @@ if [[ ! -e out ]];then
 fi
 
 function get_file_creation_seconds() {
-  #local time_correction="+ 60 minutes"
+  local time_correction="- 60 minutes"
   local TZ=""
   time=`ffprobe $1 2>&1 | grep com.apple.quicktime.creationdate -m1 | cut -d : -f 2- | cut -d' ' -f 2-`
   if [[ -z $time ]]; then
@@ -39,7 +42,7 @@ function convert_mov_to_mp4() {
   local extension="${filename##*.}"
   filename="${filename%.*}" 
   get_file_creation_seconds $1
-  filename=$time"_${filename%.*}"
+  #filename=$time"_${filename%.*}"
   #test for rotation
   rotate=`ffprobe $1 2>&1 | grep rotate -m1 | cut -d : -f 2- | cut -d' ' -f 2-`
   local ROTATE=""
@@ -49,7 +52,8 @@ function convert_mov_to_mp4() {
 
   echo "Recoding file $1 - start at $seconds" &>>log
   ffmpeg -i $1\
-    -vf "$ROTATE drawtext=fontfile=Verdana.ttf:fontsize=40:expansion=normal:text='%{pts\\:localtime\\:$seconds}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:boxcolor=0x000000@1"\
+    $BRIGHTNESS -vf "$ROTATE
+  drawtext=fontfile=Verdana.ttf:fontsize=40:expansion=normal:text='%{pts\\:localtime\\:$seconds}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:boxcolor=0x000000@1$BRIGHTNESS1"\
     $OUTPUT_FORMAT out/$filename.mp4 &>>log
 }
 
@@ -59,11 +63,11 @@ function convert_avi_to_mp4() {
   filename="${filename%.*}"
 
   get_file_creation_seconds $1
-  filename=$time"_${filename%.*}"
+  #filename=$time"_${filename%.*}"
 
   echo "Recoding file $1 - start at $seconds" &>>log
   ffmpeg -i $1\
-    -vf "setdar=16:9"\
+    $BRIGHTNESS -vf "setdar=16:9$BRIGHTNESS1"\
     $OUTPUT_FORMAT out/$filename.mp4 &>>log
 }
 
@@ -71,7 +75,7 @@ function add_timestamp(){
   local file=$1
   get_file_creation_seconds $file
   local filename=`basename $1`
-  filename=$time"_$filename"
+  #filename=$time"_$filename"
 
   #PTS
   # arg 1 -> format -> flt, hms, gmtime, localtime
@@ -79,7 +83,7 @@ function add_timestamp(){
 
   echo "Adding timestamp $1" &>>log
   ffmpeg -i $file\
-    -vf "drawtext=fontfile=Verdana.ttf:fontsize=20:expansion=normal:text='%{pts\\:localtime\\:$seconds}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:boxcolor=0x000000@1"\
+    $BRIGHTNESS -vf "drawtext=fontfile=Verdana.ttf:fontsize=20:expansion=normal:text='%{pts\\:localtime\\:$seconds}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:boxcolor=0x000000@1$BRIGHTNESS1"\
     $OUTPUT_FORMAT out/$filename &>>log
 }
 
