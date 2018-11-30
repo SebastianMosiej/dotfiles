@@ -52,19 +52,20 @@ augroup Longlines
 	"remove all autocommand for the current group
 	autocmd! 
 	autocmd BufEnter,BufWinEnter * match NONE 
-	autocmd BufEnter,BufWinEnter *.cpp,*.h match ErrorMsg '\%>104v.\+'
-  autocmd FileType cpp,c,cxx,h,hpp,python,sh  setlocal cc=120
+	autocmd BufEnter,BufWinEnter *.cpp,*.h match ErrorMsg '\%>125v.\+'
+	autocmd FileType cpp,c,cxx,h,hpp,python,sh  setlocal cc=125
 	autocmd BufEnter,BufWinEnter *.ttcn3 match ErrorMsg '\%>114v.\+'
 augroup END
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-autocmd BufWritePre * if count(['plantuml'],&filetype)
+autocmd BufWritePost * if count(['plantuml'],&filetype)
     \ | silent execute "!java -jar ". g:plantuml . " " . bufname("%")
     \ | endif
 "autocmd BufWritePost *.pu,*.plant silent execute "!java -jar ". g:plantuml . " " . bufname("%")
 
 autocmd BufWritePost create_rf_folder.js silent !%:p:h/make_custom_commands.sh
 autocmd BufWritePost create_rf_filter.js silent !%:p:h/make_custom_commands.sh
+au GUIEnter * simalt ~s
 
 
 " Plugin loading and managing
@@ -98,6 +99,7 @@ map <A-left> :bp!<cr>
 map <A-right> :bn!<cr>
 map <A-o> :A<cr>
 map <F10> :NERDTreeFind<cr>
+map <F11> :silent execute ":!py -3 ".$HOME."/.vim/scripts/uicockpit-formatter.py ".expand("%:p:h") <CR>
 vnoremap <S-F10> :execute ":%!grep -aw '.@*'<cr>
 
 source ~/.vim/greps.vim
