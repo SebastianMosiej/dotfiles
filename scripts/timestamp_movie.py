@@ -8,7 +8,8 @@ import time
 # get creation timestamop from file
 # trigger conversion
 
-
+OUTPUT_DIRECTORY = "out"
+FILES_TO_CONCATE_LIST = "mylist.txt"
 TARGET_VCODEC = 'libx264'
 TARGET_ACODEC = 'aac'
 OUTPUT_FORMAT = "-hide_banner -c:a $TARGET_ACODEC -c:v $TARGET_VCODEC -ac 2 -ar 48000\
@@ -41,7 +42,7 @@ def add_timestamp_to_mts(file_path):
     FFPROBE_PATTERN = "rotate"
     creation_timestamp = get_time_creation(file_path)
     output_dir, ext = os.path.split(file_path)
-    output_dir = os.path.join(output_dir, "out")
+    output_dir = os.path.join(output_dir, OUTPUT_DIRECTORY)
     file_name, ext = os.path.splitext(os.path.basename(file_path))
     # test for rotation
     p = subprocess.run(["ffprobe", file_path], capture_output=True)
@@ -92,6 +93,33 @@ def process():
         add_timestamp_to_mts(file)
         count+=1
 
+    file_list = glob.glob("*.avi")
+    print("Found {} AVI files".format(len(file_list)))
+    # bar = progressbar.SimpleProgress()
+    count = 1
+    for file in file_list:
+        file_name = os.path.basename(file)
+        printProgress(count, len(file_list), file_name)
+        # print("\r[{}/{}] Processing file '{}'".format(count, len(file_list), file_name))
+        add_timestamp_to_mts(file)
+        count+=1
+
+def concate_clips():
+    print("Concating movie files")
+    file_list = glob.glob(os.path.join(OUTPUT_DIRECTORY, "*.mp4"))
+    file_list.sort()
+    with open(os.path.join(OUTPUT_DIRECTORY, FILES_TO_CONCATE_LIST), 'w') as f:
+        for file in file_list:
+            file = file[len(OUTPUT_DIRECTORY)+1:]
+            f.write(f"file '{file}'\n")
+    os.chdir(OUTPUT_DIRECTORY)
+    call = f"ffmpeg -f concat -i {FILES_TO_CONCATE_LIST} -c copy detektyw.mp4"
+    p = subprocess.run(call, capture_output=True)
+    if p.returncode != 0:
+        print("Error during file concating")
+    output = str(p.stderr).split("\\r\\n")
+    os.chdir("..")
+
 
 def printProgress(iteration, total, suffix=''):
     format_str = "'\r[{:0"+str(len(str(total)))+"d}/{}] Processing '{}'"
@@ -103,3 +131,4 @@ def printProgress(iteration, total, suffix=''):
 if __name__ == "__main__":
     print("Will process all movie files")
     process()
+    concate_clips()
