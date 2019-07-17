@@ -12,12 +12,16 @@ import re
 
 OUTPUT_DIRECTORY = "out"
 FILES_TO_CONCATE_LIST = "mylist.txt"
+CONCATED_FILE = "detektyw.mp4"
 TARGET_VCODEC = 'libx264'
 TARGET_ACODEC = 'aac'
 OUTPUT_FORMAT = "-hide_banner -c:a $TARGET_ACODEC -c:v $TARGET_VCODEC -ac 2 -ar 48000\
               -r 30 -strict -2 -s 1280x720 -profile:v high422 -pix_fmt yuvj422p -video_track_timescale 60000 -y"
 OUTPUT_FORMAT1 = "-hide_banner -c:a aac -c:v libx264 -ac 2 -ar 48000\
               -r 30 -strict -2 -s 1280x720 -profile:v high422 -pix_fmt yuvj422p -video_track_timescale 60000 -y"
+OUTPUT_FORMAT_L = ["-hide_banner", "-c:a", "aac", "-c:v", "libx264", "-ac", "2", "-ar", "48000", "-r", "30",
+                   "-strict", "-2", "-s", "1280x720", "-profile:v", "high422", "-pix_fmt", "yuvj422p",
+                   "-video_track_timescale", "60000", "-y"]
 BRIGHTNESS = ""
 # BRIGHTNESS1 = ", eq=brightness=0.20"
 TIME_CORRECTIONS = ""
@@ -74,14 +78,19 @@ def add_timestamp_to_mts(file_path):
     call += ":text='%{pts\\:localtime\\:"+str(creation_timestamp)+"}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:"
     # call += "boxcolor=0x000000@1"+BRIGHTNESS+" "+OUTPUT_FORMAT1+" "+out\\"+file_name+".mp4 &>>log"
     call += "boxcolor=0x000000@1"+BRIGHTNESS+" "+OUTPUT_FORMAT1+" \""+output_filename+"\""
-            # +" &>>log"
-    # p = subprocess.run(["ffmpeg -i"+file_path+BRIGHTNESS+" -vf "+ROTATE+" drawtext=fontfile=Verdana.ttf:fontsize=40:expansion=normal"+
-    # ":text='%{pts\\:localtime\\:"+creation_timestamp+"}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:"+
-    #                     "boxcolor=0x000000@1$BRIGHTNESS1"+OUTPUT_FORMAT+" out/$"+file_name"+.mp4 &>>log", capture_output=True)
-    p = subprocess.run(call, capture_output=True)
+
+    call_l = []
+    call_l.append("ffmpeg")
+    call_l.append("-i")
+    call_l.append(f"{file_path}")
+    call_l.append("-vf")
+    call_l.append("drawtext=fontfile=Verdana.ttf:fontsize=40:expansion=normal:text='%{pts\\:localtime\\:"+str(creation_timestamp)+"}':r=30:x=(w-tw)-40:y=h-(2*lh):fontcolor=white:box=1:boxcolor=0x000000@1")
+    call_l.extend(OUTPUT_FORMAT_L)
+    call_l.append(f"{output_filename}")
+    p = subprocess.run(call_l, capture_output=True)
     if p.returncode != 0:
-        print("Error during file recoding")
-    output = str(p.stderr).split("\\r\\n")
+        print("\nError during file recoding")
+        print(str(p.stderr).split("\\r\\n"))
 
 
 def add_timestamp_to_file(file_path):
@@ -119,10 +128,11 @@ def concate_clips():
     if len(file_list):
         with open(os.path.join(OUTPUT_DIRECTORY, FILES_TO_CONCATE_LIST), 'w') as f:
             for file in file_list:
-                # file = file[len(OUTPUT_DIRECTORY)+1:]
+                if file == CONCATED_FILE:
+                    continue
                 f.write(f"file '{file}'\n")
         os.chdir(OUTPUT_DIRECTORY)
-        call = f"ffmpeg -f concat -i {FILES_TO_CONCATE_LIST} -c copy detektyw.mp4"
+        call = ["ffmpeg", "-f", "concat", "-i", FILES_TO_CONCATE_LIST, "-c", "copy", "-y", CONCATED_FILE]
         p = subprocess.run(call, capture_output=True)
         if p.returncode != 0:
             print(p.stderr)
