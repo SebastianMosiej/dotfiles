@@ -2,7 +2,9 @@ import glob
 import os
 import subprocess
 import time
-# import progressbar
+import fnmatch
+import os
+import re
 
 # get all movie files from current folder
 # get creation timestamop from file
@@ -19,6 +21,15 @@ OUTPUT_FORMAT1 = "-hide_banner -c:a aac -c:v libx264 -ac 2 -ar 48000\
 BRIGHTNESS = ""
 # BRIGHTNESS1 = ", eq=brightness=0.20"
 TIME_CORRECTIONS = ""
+
+
+def findfiles(which, where='.'):
+    '''Returns list of filenames from `where` path matched by 'which'
+       shell pattern. Matching is case-insensitive.'''
+
+    # TODO: recursive param with walk() filtering
+    rule = re.compile(fnmatch.translate(which), re.IGNORECASE)
+    return [name for name in os.listdir(where) if rule.match(name)]
 
 
 def get_time_creation(file_path):
@@ -79,54 +90,57 @@ def add_timestamp_to_file(file_path):
 
 
 def process():
-    file_list = glob.glob("*.mov")
+    file_list = findfiles("*.mov")
     for file in file_list:
-        add_timestamp_to_file(file_list)
-    file_list = glob.glob("*.mts")
+        add_timestamp_to_file(file)
+    file_list = findfiles("*.mts")
     print("Found {} MTS files".format(len(file_list)))
-    # bar = progressbar.SimpleProgress()
     count = 1
     for file in file_list:
         file_name = os.path.basename(file)
-        printProgress(count, len(file_list), file_name)
-        # print("\r[{}/{}] Processing file '{}'".format(count, len(file_list), file_name))
+        print_progress(count, len(file_list), file_name)
         add_timestamp_to_mts(file)
         count+=1
 
-    file_list = glob.glob("*.avi")
+    file_list = findfiles("*.avi")
     print("Found {} AVI files".format(len(file_list)))
-    # bar = progressbar.SimpleProgress()
     count = 1
     for file in file_list:
         file_name = os.path.basename(file)
-        printProgress(count, len(file_list), file_name)
-        # print("\r[{}/{}] Processing file '{}'".format(count, len(file_list), file_name))
+        print_progress(count, len(file_list), file_name)
         add_timestamp_to_mts(file)
-        count+=1
+        count += 1
+
 
 def concate_clips():
     print("Concating movie files")
-    file_list = glob.glob(os.path.join(OUTPUT_DIRECTORY, "*.mp4"))
+    file_list = findfiles("*.mp4", OUTPUT_DIRECTORY)
     file_list.sort()
-    with open(os.path.join(OUTPUT_DIRECTORY, FILES_TO_CONCATE_LIST), 'w') as f:
-        for file in file_list:
-            file = file[len(OUTPUT_DIRECTORY)+1:]
-            f.write(f"file '{file}'\n")
-    os.chdir(OUTPUT_DIRECTORY)
-    call = f"ffmpeg -f concat -i {FILES_TO_CONCATE_LIST} -c copy detektyw.mp4"
-    p = subprocess.run(call, capture_output=True)
-    if p.returncode != 0:
-        print("Error during file concating")
-    output = str(p.stderr).split("\\r\\n")
-    os.chdir("..")
+    if len(file_list):
+        with open(os.path.join(OUTPUT_DIRECTORY, FILES_TO_CONCATE_LIST), 'w') as f:
+            for file in file_list:
+                # file = file[len(OUTPUT_DIRECTORY)+1:]
+                f.write(f"file '{file}'\n")
+        os.chdir(OUTPUT_DIRECTORY)
+        call = f"ffmpeg -f concat -i {FILES_TO_CONCATE_LIST} -c copy detektyw.mp4"
+        p = subprocess.run(call, capture_output=True)
+        if p.returncode != 0:
+            print(p.stderr)
+            print("Error during file concating")
+        else:
+            print(" SUCCESS")
+        os.chdir("..")
+    else:
+        print("No output files found")
 
 
-def printProgress(iteration, total, suffix=''):
+def print_progress(iteration, total, suffix=''):
     format_str = "'\r[{:0"+str(len(str(total)))+"d}/{}] Processing '{}'"
     print(format_str.format(iteration, total, suffix), end='')
     # Print New Line on Complete
     if iteration == total:
         print()
+
 
 if __name__ == "__main__":
     print("Will process all movie files")
