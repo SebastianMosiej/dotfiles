@@ -65,7 +65,9 @@ autocmd BufWritePost * if count(['plantuml'],&filetype)
 
 autocmd BufWritePost create_rf_folder.js silent !%:p:h/make_custom_commands.sh
 autocmd BufWritePost create_rf_filter.js silent !%:p:h/make_custom_commands.sh
-au GUIEnter * simalt ~s
+if has("win32") || has("win16")
+  au GUIEnter * simalt ~s
+endif
 
 
 " Plugin loading and managing

@@ -80,7 +80,6 @@ Plugin github_clone_type . 'honza/vim-snippets'
 Plugin github_clone_type . 'octol/vim-cpp-enhanced-highlight.git'
 Plugin github_clone_type . 'vim-scripts/WhiteWash.git'
 Plugin github_clone_type . 'aklt/plantuml-syntax.git'
-Plugin github_clone_type . 'T4ng10r/vim-cmake'
 Plugin github_clone_type . 'benmills/vimux.git'
 " CSCOPE settings from vim
 Plugin github_clone_type . 'chazy/cscope_maps.git'

@@ -1,6 +1,6 @@
 --recurse=yes
 --c++-kinds=+p
 --fields=+iaS
---extras=+q
+--extra=+q
 -w
 --sort=yes
