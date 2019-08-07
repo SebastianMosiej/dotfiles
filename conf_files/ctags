@@ -4,3 +4,6 @@
 --extras=+q
 -w
 --sort=yes
+--exclude=.jazz5
+--exclude=.jazzShed
+

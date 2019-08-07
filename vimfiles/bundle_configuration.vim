@@ -4,6 +4,7 @@
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+"let g:UltiSnipsUsePythonVersion = 3
 " YouCompleteMe settings
 let g:ycm_server_log_lever = 'debug'
 let g:ycm_server_keep_logfiles = 0
@@ -37,6 +38,7 @@ let g:clang_format#detect_style_file = 1
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 let g:plantuml_executable_script='plantuml'
+
 "*****************************************************************
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -74,7 +76,7 @@ Plugin github_clone_type . 'MarcWeber/vim-addon-mw-utils'
 Plugin github_clone_type . 'tomtom/tlib_vim'
 Plugin github_clone_type . 'garbas/vim-snipmate'
 Plugin github_clone_type . 'honza/vim-snippets'
-"#Plugin github_clone_type . 'SirVer/ultisnips.git'
+Plugin github_clone_type . 'SirVer/ultisnips.git'
 "test
 
 Plugin github_clone_type . 'octol/vim-cpp-enhanced-highlight.git'

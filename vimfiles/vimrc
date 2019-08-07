@@ -99,7 +99,6 @@ map <A-left> :bp!<cr>
 map <A-right> :bn!<cr>
 map <A-o> :A<cr>
 map <F10> :NERDTreeFind<cr>
-map <F11> :silent execute ":!py -3 ".$HOME."/.vim/scripts/uicockpit-formatter.py ".expand("%:p:h") <CR>
 vnoremap <S-F10> :execute ":%!grep -aw '.@*'<cr>
 
 source ~/.vim/greps.vim
