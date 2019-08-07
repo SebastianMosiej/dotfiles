@@ -1,10 +1,12 @@
 #!/bin/bash 
 #-xv
-
 echo "Parsing through CLion configuration files"
 for file in `find ~/ -type d -iname '.CLion*'`
 do
   if ls $file/config/eval/CLion*evaluation.key 1> /dev/null 2>&1; then
+    epoch=`date +%s`
+    epoch=$epoch${timeepoch:0:13-${#epoch}}
+
     for eval_key in `find $file/config/eval/CLion*evaluation.key`
     do 
       echo "Removing CLion evaluation key '$eval_key'"
