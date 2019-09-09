@@ -97,8 +97,8 @@ endif
 map <S-F8> :execute "grep -srnw --binary-files=without-match -e ". expand("<cword>"). " * " <Bar> cwindow<CR> 
 map <F9> :execute ":%!grep -aw " . expand("<cword>")<cr>
 map <S-F9> :execute ":%!grep -av " . expand("<cword>")<cr>
-map <A-left> :bp!<cr>
-map <A-right> :bn!<cr>
+map <A-left> :cp!<cr>
+map <A-right> :cn!<cr>
 map <A-o> :A<cr>
 map <F10> :NERDTreeFind<cr>
 vnoremap <S-F10> :execute ":%!grep -aw '.@*'<cr>
