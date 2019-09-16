@@ -116,4 +116,4 @@ set laststatus=2
 
 let g:alternateExtensions_hh = "cc"
 let g:alternateExtensions_cc = "hh"
-let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,reg:|src|inc/ivi||'
+let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,reg:|src|inc/ivi||,reg:|src|inc/nit||'

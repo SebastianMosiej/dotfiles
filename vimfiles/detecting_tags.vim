@@ -70,4 +70,5 @@ set tags +=/usr/include/boost/tags
 set tags +=/usr/include/SDL2/tags
 set tags +=/usr/include/i386-linux-gnu/qt5/tags
 set tags +=/usr/include/x86_64-linux-gnu/qt5/tags
+set tags +=c:/projects/Kanzi_Source_3_6_3_iznak/tags
 
