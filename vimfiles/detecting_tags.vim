@@ -7,6 +7,10 @@ if (! exists("FindCtagsHere"))
 function! FindCtagsHere(dir, dir_sep)
       let tag_dir = a:dir
       let sep = a:dir_sep
+      "if last sign is path separator - remove it
+      if matchend(tag_dir, sep)>=0
+        let tag_dir = substitute(tag_dir, sep.'$', "", "")
+      endif
       while !filereadable(tag_dir.sep."tags") && tag_dir!=$HOME && stridx(tag_dir, strpart(sep, 0,1))>=0
               let tag_dir = substitute(tag_dir, sep.'[^'.sep.']\+$', "", "")
       endwhile
@@ -31,7 +35,6 @@ function! LoadCscope()
     cs add $CSCOPE_DB
   endif
 endfunction
-" au BufEnter /* call LoadCscope()
 " 1
 
 " 2
@@ -43,8 +46,6 @@ au BufReadPost *.hpp    let b:current_file_tags=FindCtagsHere(expand('%:p:h'),'\
 au BufReadPost *.cpp    call LoadCscope()
 au BufReadPost *.h      call LoadCscope()
 au BufReadPost *.hpp    call LoadCscope()
-" treat paths as relative
-set cscoperelative
 else
 au BufReadPost *.cpp    let b:current_file_tags=FindCtagsHere(expand('%:p:h'),'/')
 au BufReadPost *.h      let b:current_file_tags=FindCtagsHere(expand('%:p:h'),'/')
