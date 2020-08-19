@@ -17,5 +17,5 @@ install_package()
 source user_configuration_scrips/1_i3_config.sh
 source user_configuration_scrips/2_runtime_configs.sh
 source vim_link_script.sh
-#source user_configuration_scrips/3_development_tools.sh
+source user_configuration_scrips/3_development_tools.sh
 

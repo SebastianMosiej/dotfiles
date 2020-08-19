@@ -94,7 +94,7 @@ Plugin github_clone_type . 'tikhomirov/vim-glsl'
 
 if (!has("win32") && !has("win16"))
   Plugin github_clone_type . 'christoomey/vim-tmux-navigator.git'
-  Plugin github_clone_type . 'Valloric/YouCompleteMe.git'
+"  Plugin github_clone_type . 'Valloric/YouCompleteMe.git'
 endif
 
 call vundle#end()            " required

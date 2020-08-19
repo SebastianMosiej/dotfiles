@@ -10,8 +10,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $primary HDMI-0
-set $secondary DP-4
+set $primary DP-2
+set $secondary HDMI-1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -174,7 +174,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 bindsym $mod+q exec google-chrome-stable
 bindsym $mod+Shift+w exec icedove
-bindsym $mod+p exec /usr/bin/displays
+#bindsym $mod+p exec /usr/bin/displays
 bindsym $mod+Shift+p exec /usr/bin/keepassxc
 bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
@@ -218,7 +218,7 @@ bindsym 115 exec amixer sset Master 5%+
 
 set $mode_tools (s) screenshot, (t) filemanager, (n) nixnote2, (d) dev Thunderbird
 mode "$mode_tools" {
-    bindsym s exec "scrot ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
+    bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
     bindsym n exec --no-startup-id nixnote2, mode "default"
     bindsym d exec --no-startup-id icedove --no-remote -P dev, mode "default"
@@ -253,8 +253,11 @@ bar {
         tray_output primary
 }
 
+exec --no-startup-id setxkbmap -option caps:escape
+exec --no-startup-id feh -r $HOME/.wallpaper--bg-fill -z -D 300
 exec i3-msg workspace $tag2  #triggers i3 
 
+#
 for_window [workspace=$tag1] layout stacking
 for_window [workspace=$tag2] layout tabbed
 for_window [workspace=$tag3] layout tabbed
@@ -292,9 +295,14 @@ for_window [class="Opera"] move to workspace $tag8
 for_window [class="Ristretto"] move to workspace $tag8
 for_window [class="mockplus.exe"] floating disable, sticky disable
 for_window [class="Unity"] move to workspace $tag4
+for_window [class="qml_test"] floating enable, sticky disable
+for_window [class="Slack"] move to workspace $tag6
+for_window [class="Squish IDE" title="Control Bar"] floating enable, sticky disable
+for_window [title="Android Emulator"] floating enable, sticky disable
 
 assign [class="Icedove"]  $tag1
 assign [class="Thunderbird"]  $tag1
+assign [class="thunderbird"]  $tag1
 assign [class="Evolution"]  $tag1
 assign [class="Psi-plus" instance="tabs"]  $tag1
 assign [class="Psi-plus"]  $tag1
@@ -312,3 +320,5 @@ assign [class="Xfce4-taskmanager"] $tag5
 assign [class="nixnote2"] $tag6
 assign [class="Rainlendar2"]  $tag7
 assign [class="Unity"] $tag4
+assign [class="jetbrains-*"] $tag4
+assign [class="Slack"] $tag6

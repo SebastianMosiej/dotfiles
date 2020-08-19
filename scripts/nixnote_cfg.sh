@@ -1,8 +1,8 @@
 #!/bin/bash 
 
-FILE="$HOME/.nixnote/nixnote-1.conf"
+FILE="$HOME/.config/nixnote2/nixnote-1.conf"
 
-if [[ ! -f $HOME/.nixnote/nixnote-1.conf ]]; then
+if [[ ! -f $HOME/.config/nixnote2/nixnote-1.conf ]]; then
   echo "Lack of nixnote configuration file"
   exit
 fi
