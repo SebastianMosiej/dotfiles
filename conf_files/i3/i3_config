@@ -184,9 +184,12 @@ bindsym Control+$mod+l exec xscreensaver-command --lock
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 3 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 3 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 3 toggle # mute sound
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) +2% #increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) -2% #increase sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) #mute sound
 
 # # Sreen brightness controls
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -254,7 +257,7 @@ bar {
 }
 
 exec --no-startup-id setxkbmap -option caps:escape
-exec --no-startup-id feh -r $HOME/.wallpaper--bg-fill -z -D 300
+exec --no-startup-id feh -r $HOME/.wallpaper --bg-fill -z -D 300
 exec i3-msg workspace $tag2  #triggers i3 
 
 #
@@ -314,6 +317,7 @@ assign [instance="Evernote.exe" ] $tag2
 assign [class="konsole"]  $tag3
 assign [class="Xfce4-terminal"] $tag3
 assign [class="XTerm"] $tag3
+assign [class="GitKraken"] $tag4
 assign [class="TeamViz" title="TeamViz"] $tag5
 assign [class="Lxtask"] $tag5
 assign [class="Xfce4-taskmanager"] $tag5
