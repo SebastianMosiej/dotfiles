@@ -7,6 +7,7 @@ alias plantuml='java -jar ~/plantuml/plantuml.jar'
 alias links='find . -maxdepth 1 -type l -ls'
 alias cscope='cscope -RbqUuv'
 alias xrdbm="xrdb -merge ~/.Xresources"
+alias ll="ls -Al"
 
 #export TERM=screen-256color
 alias tmux='tmux -2'
@@ -18,8 +19,6 @@ export WINEPREFIX=$HOME'/.wineprefix/evernote'
 export WINEPREFIX2=$HOME'/.wineprefix/evernote_2'
 export EVERNOTE_PATH='/drive_c/Program\ Files/Evernote/Evernote'
 alias evernote='(wineserver -k;cd '$WINEPREFIX$EVERNOTE_PATH'; wine Evernote.exe &> '$WINEPREFIX'/log &)'
-alias openconnect_nsn='cd ~/gdrive/Certificates;sudo openconnect --config=oc_config nra-emea-de-muc-qa-1.remoteaccess.nsn.com'
-alias openconnect_nsn1='cd ~/gdrive/Certificates;sudo openconnect --config=oc_config nra-emea-fi-esp-vip.net.nokia.com'
 alias xclip='xclip -selection clipboard'
 alias less='less -R'
 alias git_tanglor='git config --local user.name "T4ng10r"; git config --local user.email tanglor@poczta.onet.pl '
@@ -29,7 +28,7 @@ _GREP_OPTIONS_="--color=always --exclude=tags --binary-files=without-match"
 function grep_cpp
 {
   #find . \( -iname '*.cpp' -o -iname '*.h' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
-  grep -srn "$1" "$2" --exclude-dir=".svn" --color=always --include=*.{cpp,h} *;
+  grep -srn "$@" --exclude-dir=".svn" --color=always --include=*.{cpp,h,hpp,cc} *;
 }
 
 function grep_log
