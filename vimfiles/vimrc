@@ -43,7 +43,19 @@ let g:ttcn_fold=1
 set hidden
 let javaScript_fold=1
 "*****************************************************************
-let g:plantuml="c:\\Windows\\plantuml.jar"
+if has("win32") || has("win16")
+  let g:plantuml="c:\\Windows\\plantuml.jar"
+  autocmd BufWritePost * if count(['plantuml'],&filetype)
+      \ | silent execute "!java -jar ". g:plantuml . " " . bufname("%")
+      \ | endif
+  autocmd BufWritePost *.pu,*.plant silent execute "!java -jar ". g:plantuml . " " . bufname("%")
+else
+  let g:plantuml="/usr/bin/plantuml"
+  autocmd BufWritePost * if count(['plantuml'],&filetype)
+      \ | silent execute "!". g:plantuml . " " . bufname("%")
+      \ | endif
+  autocmd BufWritePost *.pu,*.plant silent execute "!". g:plantuml . " " . bufname("%")
+endif
 let g:xml_syntax_folding=1
 au FileType xml setlocal foldmethod=syntax
 
@@ -58,10 +70,6 @@ augroup Longlines
 augroup END
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-autocmd BufWritePost * if count(['plantuml'],&filetype)
-    \ | silent execute "!java -jar ". g:plantuml . " " . bufname("%")
-    \ | endif
-"autocmd BufWritePost *.pu,*.plant silent execute "!java -jar ". g:plantuml . " " . bufname("%")
 
 autocmd BufWritePost create_rf_folder.js silent !%:p:h/make_custom_commands.sh
 autocmd BufWritePost create_rf_filter.js silent !%:p:h/make_custom_commands.sh

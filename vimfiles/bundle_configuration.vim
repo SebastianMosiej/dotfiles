@@ -39,6 +39,8 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 
 let g:plantuml_executable_script='plantuml'
 
+let g:snipMate = { 'snippet_version' : 1 }
+
 "*****************************************************************
 set nocompatible              " be iMproved, required
 filetype off                  " required
