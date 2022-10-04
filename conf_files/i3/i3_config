@@ -12,6 +12,7 @@
 set $mod Mod4
 set $primary DP-2
 set $secondary HDMI-1
+set $third eDP-1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -103,6 +104,8 @@ set $tag5 "5: settings"
 set $tag6 "6: music"
 set $tag7 "7: rain"
 set $tag8 "8: docs"
+set $tag9 "rimac"
+set $tag10 "rimac2"
 
 workspace $tag1 output $primary
 workspace $tag2 output $primary
@@ -112,8 +115,8 @@ workspace $tag5 output $primary
 workspace $tag6 output $secondary
 workspace $tag7 output $secondary
 workspace $tag8 output $secondary
-workspace 9 output $secondary
-workspace 10 output $secondary
+workspace $tag9 output $secondary
+workspace $tag10 output $third
 
 # switch to workspace
 bindsym $mod+1 workspace $tag1
@@ -125,7 +128,7 @@ bindsym $mod+6 workspace $tag6
 bindsym $mod+7 workspace $tag7
 bindsym $mod+8 workspace $tag8
 bindsym $mod+9 workspace $tag9
-bindsym $mod+0 workspace 10
+bindsym $mod+0 workspace $tag10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $tag1
@@ -137,7 +140,7 @@ bindsym $mod+Shift+6 move container to workspace $tag6
 bindsym $mod+Shift+7 move container to workspace $tag7
 bindsym $mod+Shift+8 move container to workspace $tag8
 bindsym $mod+Shift+9 move container to workspace $tag9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace $tag10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -178,18 +181,15 @@ bindsym $mod+Shift+w exec icedove
 bindsym $mod+Shift+p exec /usr/bin/keepassxc
 bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
-bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
-bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
+#bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
+#bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
 bindsym Control+$mod+l exec xscreensaver-command --lock
 
 
 # Pulse Audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) +2% #increase sound volume
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) -2% #increase sound volume
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list | grep "WH-1000" -B 5 | grep "Card " | cut -d# -f 2 ) #mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) +2% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) -2% #increase sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) #mute sound
 
 # # Sreen brightness controls
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -219,12 +219,16 @@ bindsym 115 exec amixer sset Master 5%+
 #bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
 
-set $mode_tools (s) screenshot, (t) filemanager, (n) nixnote2, (d) dev Thunderbird
+set $mode_tools (s) screenshot, (t) filemanager, (n) nixnote2, (l) laptop docking, (b) WH Connnect
 mode "$mode_tools" {
     bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
     bindsym n exec --no-startup-id nixnote2, mode "default"
-    bindsym d exec --no-startup-id icedove --no-remote -P dev, mode "default"
+    bindsym l exec --no-startup-id ~/dotfiles/scripts/laptop_docking.sh, mode "default"
+    bindsym o exec --no-startup-id "xrandr -d :0 --output HDMI-1  --off; xrandr -d:0 --output DP2 --off", mode "default"
+    bindsym b exec --no-startup-id "bluetoothctl connect 88:C9:E8:14:CF:33", exec notify-send -t 1 "Sonny WH BT Connecting...", mode "default"
+
+
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -248,6 +252,9 @@ mode "$mode_system" {
 }
 bindsym $mod+Pause mode "$mode_system"
 
+#autoclicker
+bindsym Control+Shift+F12 exec ~/bin/autoclick.sh
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -257,10 +264,12 @@ bar {
 }
 
 exec --no-startup-id setxkbmap -option caps:escape
-exec --no-startup-id feh -r $HOME/.wallpaper --bg-fill -z -D 300
+exec --no-startup-id feh -r $HOME/.wallpaper --bg-max -z -D 300
 exec i3-msg workspace $tag2  #triggers i3 
 
-#
+
+#WM_CLASS(STRING) = <instance>, <class_name>
+#will be executed whenever a window changes its properties to something that matches the specified criteria
 for_window [workspace=$tag1] layout stacking
 for_window [workspace=$tag2] layout tabbed
 for_window [workspace=$tag3] layout tabbed
@@ -280,6 +289,7 @@ for_window [class="jetbrains-pycharm"] move to workspace $tag4
 for_window [class="jetbrains-idea-ce"] move to workspace $tag4
 for_window [class="jetbrains-rubymine"] move to workspace $tag4
 for_window [class="jetbrains-clion"] move to workspace $tag4
+for_window [class="Code"] move to workspace $tag4
 for_window [class="Java" title="XMind"] move to workspace $tag8
 for_window [class="XMind"] move to workspace $tag8
 #this is for Add ToDo dialog
@@ -290,7 +300,6 @@ for_window [class="kcalc"] floating enable, sticky disable
 for_window [title="User Settings" class="nixnote2" ] resize set 600px 700px
 for_window [class="Anki" ] move to workspace $tag2, floating enable, sticky enable
 for_window [class="Tilda"] move to workspace $tag3, floating disable
-#for_window [class="XTerm"] move to workspace $tag3
 for_window [class="Firefox"] move to workspace $tag2
 for_window [class="Iceweasel"] move to workspace $tag2
 for_window [instance="StarFire-Client"] floating enable
@@ -302,7 +311,32 @@ for_window [class="qml_test"] floating enable, sticky disable
 for_window [class="Slack"] move to workspace $tag6
 for_window [class="Squish IDE" title="Control Bar"] floating enable, sticky disable
 for_window [title="Android Emulator"] floating enable, sticky disable
+for_window [title="IC System"] floating enable, sticky disable, move position 5120 160
+for_window [class="cid-system"] move to workspace $tag9
+for_window [class="cid-vehSettings"] move to workspace $tag9
+for_window [class="cid-vehControl"] move to workspace $tag9
+for_window [class="cid-rpv_vehSettings"] move to workspace $tag9
+for_window [class="cid-driveMode"] move to workspace $tag9
+for_window [class="CentralApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
+for_window [class="ClusterApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
+for_window [class="PassengerApp"] move to workspace $tag9, floating enable, sticky disable, move position 1200 100
+for_window [class="AMRBCentralCore"] move to workspace $tag9, floating enable, sticky disable, move position 1200 100
+for_window [class="LiXplore"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+for_window [class="KMS"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+##for_window [class="DragDropExample"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+for_window [class="breathGuideApp"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+for_window [class="QmlCamDemo"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 , resize set 1280px 800px
+for_window [class="gitk"] move to workspace $tag4
+for_window [class="Squish IDE"] move to workspace $tag4
+for_window [class="scrivener.exe" title="Options"] floating enable
+for_window [class="Google-chrome" instance="google-chrome (.*evernote_profile)"] move to workspace $tag6
+for_window [class="Evernote"] move to workspace $tag6
+for_window [class="QtCreator" title="Edit Environment"] move position 2700 50, resize set 2110px 1280px
+for_window [class="Qalculate-gtk"] floating enable, sticky disable
+for_window [class="CppIntegration"] move position 4020 50 ,floating enable, sticky disable
+for_window [class="qml_animation_1"] move position 4020 50 ,floating enable, sticky disable
 
+#automatically make a specific window show up on a specific workspace
 assign [class="Icedove"]  $tag1
 assign [class="Thunderbird"]  $tag1
 assign [class="thunderbird"]  $tag1
@@ -325,4 +359,8 @@ assign [class="nixnote2"] $tag6
 assign [class="Rainlendar2"]  $tag7
 assign [class="Unity"] $tag4
 assign [class="jetbrains-*"] $tag4
+assign [class="Code"] $tag4
 assign [class="Slack"] $tag6
+assign [class="Squish IDE"] $tag4
+assign [class="Evernote"] $tag6
+
