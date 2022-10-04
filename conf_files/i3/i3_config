@@ -10,8 +10,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $primary DP-2
-set $secondary HDMI-1
+set $primary DP-1-1-8
+set $secondary DP-1-1-1
 set $third eDP-1
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -175,15 +175,13 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-bindsym $mod+q exec google-chrome-stable
-bindsym $mod+Shift+w exec icedove
 #bindsym $mod+p exec /usr/bin/displays
 bindsym $mod+Shift+p exec /usr/bin/keepassxc
 bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 #bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
 #bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
-bindsym Control+$mod+l exec xscreensaver-command --lock
+bindsym Control+$mod+l exec i3lock -c 282828
 
 
 # Pulse Audio controls
@@ -219,16 +217,15 @@ bindsym 115 exec amixer sset Master 5%+
 #bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
 
-set $mode_tools (s) screenshot, (t) filemanager, (n) nixnote2, (l) laptop docking, (b) WH Connnect
+set $mode_tools (s) screenshot, (t) filemanager, (n) BT Mouse connect, (l) laptop docking, (b) WH Connnect, (m) WH BT Audio profile
 mode "$mode_tools" {
     bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
-    bindsym n exec --no-startup-id nixnote2, mode "default"
-    bindsym l exec --no-startup-id ~/dotfiles/scripts/laptop_docking.sh, mode "default"
+    bindsym l exec --no-startup-id autorandr, exec --no-startup notify-send -t 1 "Autorandr executed ...", mode "default"
     bindsym o exec --no-startup-id "xrandr -d :0 --output HDMI-1  --off; xrandr -d:0 --output DP2 --off", mode "default"
-    bindsym b exec --no-startup-id "bluetoothctl connect 88:C9:E8:14:CF:33", exec notify-send -t 1 "Sonny WH BT Connecting...", mode "default"
-
-
+    bindsym b exec --no-startup-id "~/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 38:18:4C:24:FF:E8 &", exec notify-send -t 1 "BT Connecting...", mode "default"
+    bindsym n exec --no-startup-id "~/bin/connect_bluetooth_dev.sh C8:60:89:00:02:02 &", exec notify-send -t 1 "BT Mouse Connecting...", mode "default"
+    bindsym m exec --no-startup-id "pactl set-card-profile $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 | grep Card | cut -d '#' -f 2) a2dp_sink", mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -239,7 +236,8 @@ bindsym $mod+o mode "$mode_tools"
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    #bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym l exec --no-startup-id i3lock -c 282828, mode "default"
     bindsym e exec --no-startup-id i3exit logout, mode "default"
     bindsym s exec --no-startup-id i3exit suspend, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
@@ -284,14 +282,15 @@ for_window [class="QtQmlViewer"] floating enabled
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [class="QtCreator"] move to workspace $tag4
+for_window [class="QtCreator" title="Edit Environment"] move position 1970 50, resize set 1800px 950px
 for_window [class="jetbrains-pycharm-ce"] move to workspace $tag4
 for_window [class="jetbrains-pycharm"] move to workspace $tag4
 for_window [class="jetbrains-idea-ce"] move to workspace $tag4
 for_window [class="jetbrains-rubymine"] move to workspace $tag4
 for_window [class="jetbrains-clion"] move to workspace $tag4
 for_window [class="Code"] move to workspace $tag4
-for_window [class="Java" title="XMind"] move to workspace $tag8
-for_window [class="XMind"] move to workspace $tag8
+for_window [class="Java" title="Xmind"] move to workspace $tag8
+for_window [class="Xmind"] move to workspace $tag8
 #this is for Add ToDo dialog
 for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable, resize set 570px 500px
 # this is for ToDo lists
@@ -320,21 +319,26 @@ for_window [class="cid-driveMode"] move to workspace $tag9
 for_window [class="CentralApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
 for_window [class="ClusterApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
 for_window [class="PassengerApp"] move to workspace $tag9, floating enable, sticky disable, move position 1200 100
-for_window [class="AMRBCentralCore"] move to workspace $tag9, floating enable, sticky disable, move position 1200 100
-for_window [class="LiXplore"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
-for_window [class="KMS"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
 ##for_window [class="DragDropExample"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
 for_window [class="breathGuideApp"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+for_window [class="StarshipCommand"] move to workspace $tag9, floating enable, sticky disable, move position 10 10 
 for_window [class="QmlCamDemo"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 , resize set 1280px 800px
 for_window [class="gitk"] move to workspace $tag4
 for_window [class="Squish IDE"] move to workspace $tag4
 for_window [class="scrivener.exe" title="Options"] floating enable
 for_window [class="Google-chrome" instance="google-chrome (.*evernote_profile)"] move to workspace $tag6
 for_window [class="Evernote"] move to workspace $tag6
-for_window [class="QtCreator" title="Edit Environment"] move position 2700 50, resize set 2110px 1280px
 for_window [class="Qalculate-gtk"] floating enable, sticky disable
 for_window [class="CppIntegration"] move position 4020 50 ,floating enable, sticky disable
 for_window [class="qml_animation_1"] move position 4020 50 ,floating enable, sticky disable
+
+for_window [class="UnrealEditor"] move to workspace $tag9
+for_window [class="UnrealEditor" title="Output Log"] move to workspace $tag9, floating enable, sticky disable
+for_window [class="UnrealEditor" title="Editor Preferences"] move to workspace $tag9, floating enable, sticky disable
+for_window [class="UnrealEditor" title="Plugins"] move to workspace $tag9, floating enable, sticky disable
+for_window [class="UnrealEditor" title="Unreal Project Browser"] move to workspace $tag9, floating enable, sticky disable
+for_window [class="UnrealEditor" title="Open Directory"] move to workspace $tag9, floating enable, sticky disable
+
 
 #automatically make a specific window show up on a specific workspace
 assign [class="Icedove"]  $tag1
@@ -356,11 +360,12 @@ assign [class="TeamViz" title="TeamViz"] $tag5
 assign [class="Lxtask"] $tag5
 assign [class="Xfce4-taskmanager"] $tag5
 assign [class="nixnote2"] $tag6
-assign [class="Rainlendar2"]  $tag7
+assign [class="Rainlendar2"] $tag7
 assign [class="Unity"] $tag4
 assign [class="jetbrains-*"] $tag4
 assign [class="Code"] $tag4
 assign [class="Slack"] $tag6
 assign [class="Squish IDE"] $tag4
 assign [class="Evernote"] $tag6
+assign [class="StarshipCommand"] $tag9
 

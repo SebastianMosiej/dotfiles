@@ -1,17 +1,15 @@
 #!/bin/bash
 message "Starting user specific xsession"
-setxkbmap -option caps:escape
 lxtask &
 insync start &
-spotify &
 sleep 1
-thunderbird &
+evolution &
 sleep 2
-#autokey &
-#nitrogen --restore &
-feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300 &
-nixnote2 &
 rainlendar2 &
+$HOME//bin/Evernote.Linux.Beta.AppImage &
+slack &
+sleep 1
+feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300 &
 sleep 1
 if [ -e /tmp/.displays ]; then
   rm /tmp/.displays
@@ -19,8 +17,15 @@ fi
 /usr/bin/xscreensaver -no-splash &
 /usr/bin/blueman-applet &
 /usr/bin/google-chrome-stable &
-pushd /opt/XMind/XMind_amd64/
-/opt/XMind/XMind_amd64/XMind &
-popd
+/usr/bin/google-chrome-stable --user-data-dir="$HOME/.rimac_profile" &
 
+xmind &
+
+xrandr --output DP-1-1-1 --mode 1920x1200 --output DP-1-1-8 --mode 1920x1200 --auto --primary --right-of DP-1-1-1 --output eDP-1 --auto --right-of DP-1-1-8
+
+setxkbmap -option caps:escape
+setxkbmap pl
+spotify &
+
+#exec xfce4-session
 exec i3

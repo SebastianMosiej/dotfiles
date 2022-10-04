@@ -3,7 +3,7 @@
 apt-get install build-essential cmake plantuml gdb -yqq
 
 apt-get update -qq
-apt-get install python-dev python-pip python3-dev python3-pip tmux xclip -yq
+apt-get install python-dev python-pip python3-dev python3-pip tmux xclip meld -yq
 apt-get install neovim -yq
 apt-get install exuberant-ctags -yq
 

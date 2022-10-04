@@ -1,3 +1,5 @@
+alias ll='ls -al'
+alias l='ls -CF'
 alias mkdir='mkdir -pv'
 alias rsyncp='rsync -r --progress -u'
 alias status='svn status | grep -P '\''^(?=.{0,6}[ADM])'\'''

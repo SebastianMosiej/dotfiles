@@ -34,8 +34,8 @@ echo 'Install .NET 4.5.2'
 wine64 NDP452-KB2901907-x86-x64-AllOS-ENU.exe
 
 echo 'Install Sketchup'
-wine64 start Sketchup2017-x64.msi 
-#WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX wine64 sketchupmake-2017-2-2555-90782-en-x64.exe
+#wine64 start Sketchup2017-x64.msi 
+WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX wine64 SketchUpMake-2017-pl-x64.exe
 #now prerequisite should be unpacked
 #echo 'Expecting prerequisites in user Temp dir'
 #ls -al $WINEPREFIX/drive_c/users/$LOGNAME/Temp/sketchup_install/
