@@ -30,7 +30,7 @@ _GREP_OPTIONS_="--color=always --exclude=tags --binary-files=without-match"
 function grep_cpp
 {
   #find . \( -iname '*.cpp' -o -iname '*.h' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
-  grep -srn "$@" --exclude-dir=".svn" --color=always --include=*.{cpp,h,hpp,cc} *;
+  grep -srn --exclude-dir=".svn" --exclude-dir=".git" --color=always --include=*.{cpp,h,hpp,cc} "$@" *;
 }
 
 function grep_log
