@@ -185,9 +185,13 @@ bindsym Control+$mod+l exec i3lock -c 282828
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) +2% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) -2% #increase sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) #mute sound
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) +2% #increase sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) +2%
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) -2% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) -2% #increase sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) toggle; exec notify-send -t 1 "Muted/Unmuted"
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) toggle; exec notify-send -t 1 "Muted/Unmuted"
+ #mute sound
 
 # # Sreen brightness controls
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -265,9 +269,10 @@ exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id feh -r $HOME/.wallpaper --bg-max -z -D 300
 exec i3-msg workspace $tag2  #triggers i3 
 
-
+#use xprop
 #WM_CLASS(STRING) = <instance>, <class_name>
 #will be executed whenever a window changes its properties to something that matches the specified criteria
+#
 for_window [workspace=$tag1] layout stacking
 for_window [workspace=$tag2] layout tabbed
 for_window [workspace=$tag3] layout tabbed
@@ -338,17 +343,14 @@ for_window [class="UnrealEditor" title="Editor Preferences"] move to workspace $
 for_window [class="UnrealEditor" title="Plugins"] move to workspace $tag9, floating enable, sticky disable
 for_window [class="UnrealEditor" title="Unreal Project Browser"] move to workspace $tag9, floating enable, sticky disable
 for_window [class="UnrealEditor" title="Open Directory"] move to workspace $tag9, floating enable, sticky disable
+for_window [class="scrivener-installer.exe"] floating enable, sticky disable
+for_window [class="scrivener.exe"] move to $tag5, floating disable, sticky enable
 
 
 #automatically make a specific window show up on a specific workspace
 assign [class="Icedove"]  $tag1
 assign [class="Thunderbird"]  $tag1
-assign [class="thunderbird"]  $tag1
 assign [class="Evolution"]  $tag1
-assign [class="Psi-plus" instance="tabs"]  $tag1
-assign [class="Psi-plus"]  $tag1
-assign [class="Pidgin"] $tag1
-assign [class="Linphone"]  $tag2
 assign [class="Iceweasel"]  $tag2
 assign [class="Google-chrome"]  $tag2
 assign [instance="Evernote.exe" ] $tag2
