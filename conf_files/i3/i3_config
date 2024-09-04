@@ -10,9 +10,14 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $primary DP-1-1-8
-set $secondary DP-1-1-1
+
+#set $primary DP-1-8
+#set $secondary DP-1-1-8
 set $third eDP-1
+#set $fourth HDMI-1
+
+set $primary HDMI-1
+set $secondary DP-1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -28,6 +33,18 @@ font pango:monospace 8
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) -2% #increase sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) toggle; exec notify-send -t 1 "Muted/Unmuted"
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) toggle; exec notify-send -t 1 "Muted/Unmuted"
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -129,6 +146,7 @@ bindsym $mod+7 workspace $tag7
 bindsym $mod+8 workspace $tag8
 bindsym $mod+9 workspace $tag9
 bindsym $mod+0 workspace $tag10
+bindsym $mod+0x02d workspace $tag11
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $tag1
@@ -141,6 +159,7 @@ bindsym $mod+Shift+7 move container to workspace $tag7
 bindsym $mod+Shift+8 move container to workspace $tag8
 bindsym $mod+Shift+9 move container to workspace $tag9
 bindsym $mod+Shift+0 move container to workspace $tag10
+bindsym $mod+Shift+0x02d move container to workspace $tag11 
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -177,25 +196,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 #bindsym $mod+p exec /usr/bin/displays
 bindsym $mod+Shift+p exec /usr/bin/keepassxc
-bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
+#bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 #bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
 #bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
-bindsym Control+$mod+l exec i3lock -c 282828
+bindsym Control+$mod+l exec i3lock -c 080808
 
-
-# Pulse Audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) +2% #increase sound volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) +2%
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep index | cut -d: -f 2) -2% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) -2% #increase sound volume
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) toggle; exec notify-send -t 1 "Muted/Unmuted"
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) toggle; exec notify-send -t 1 "Muted/Unmuted"
- #mute sound
-
-# # Sreen brightness controls
-#bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-#bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # # Touchpad controls
 #bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
@@ -254,9 +260,6 @@ mode "$mode_system" {
 }
 bindsym $mod+Pause mode "$mode_system"
 
-#autoclicker
-bindsym Control+Shift+F12 exec ~/bin/autoclick.sh
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -281,14 +284,12 @@ for_window [workspace=$tag5] layout tabbed
 for_window [workspace=$tag6] layout tabbed
 for_window [workspace=$tag8] layout tabbed
 for_window [class="Spotify"] move to workspace $tag6
-for_window [class="TeamViz" title="Countdown"] sticky enable, floating enable, move position 1430 75
-for_window [class="TeamViz" title="TeamViz"] sticky disable, floating disable
 for_window [class="QtQmlViewer"] floating enabled
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [class="QtCreator"] move to workspace $tag4
 for_window [class="QtCreator" title="Edit Environment"] move position 1970 50, resize set 1800px 950px
-for_window [class="jetbrains-pycharm-ce"] move to workspace $tag4
+for_window [class="jetbrains-*"] move to workspace $tag4
 for_window [class="jetbrains-pycharm"] move to workspace $tag4
 for_window [class="jetbrains-idea-ce"] move to workspace $tag4
 for_window [class="jetbrains-rubymine"] move to workspace $tag4
@@ -302,40 +303,20 @@ for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7,
 for_window [class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable
 for_window [class="kcalc"] floating enable, sticky disable
 for_window [title="User Settings" class="nixnote2" ] resize set 600px 700px
-for_window [class="Anki" ] move to workspace $tag2, floating enable, sticky enable
-for_window [class="Tilda"] move to workspace $tag3, floating disable
-for_window [class="Firefox"] move to workspace $tag2
-for_window [class="Iceweasel"] move to workspace $tag2
 for_window [instance="StarFire-Client"] floating enable
-for_window [class="Opera"] move to workspace $tag8
 for_window [class="Ristretto"] move to workspace $tag8
 for_window [class="mockplus.exe"] floating disable, sticky disable
 for_window [class="Unity"] move to workspace $tag4
 for_window [class="qml_test"] floating enable, sticky disable
 for_window [class="Slack"] move to workspace $tag6
 for_window [class="Squish IDE" title="Control Bar"] floating enable, sticky disable
-for_window [title="Android Emulator"] floating enable, sticky disable
-for_window [title="IC System"] floating enable, sticky disable, move position 5120 160
-for_window [class="cid-system"] move to workspace $tag9
-for_window [class="cid-vehSettings"] move to workspace $tag9
-for_window [class="cid-vehControl"] move to workspace $tag9
-for_window [class="cid-rpv_vehSettings"] move to workspace $tag9
-for_window [class="cid-driveMode"] move to workspace $tag9
-for_window [class="CentralApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
-for_window [class="ClusterApp"] move to workspace $tag9, floating enable, sticky disable, move position 600 100
-for_window [class="PassengerApp"] move to workspace $tag9, floating enable, sticky disable, move position 1200 100
-##for_window [class="DragDropExample"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
-for_window [class="breathGuideApp"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 
+for_window [class="breathGuideApp"] move to workspace $tag9, floating enable, sticky disable, move position 1116 193 
 for_window [class="StarshipCommand"] move to workspace $tag9, floating enable, sticky disable, move position 10 10 
 for_window [class="QmlCamDemo"] move to workspace $tag9, floating enable, sticky disable, move position 1216 193 , resize set 1280px 800px
 for_window [class="gitk"] move to workspace $tag4
-for_window [class="Squish IDE"] move to workspace $tag4
 for_window [class="scrivener.exe" title="Options"] floating enable
 for_window [class="Google-chrome" instance="google-chrome (.*evernote_profile)"] move to workspace $tag6
 for_window [class="Evernote"] move to workspace $tag6
-for_window [class="Qalculate-gtk"] floating enable, sticky disable
-for_window [class="CppIntegration"] move position 4020 50 ,floating enable, sticky disable
-for_window [class="qml_animation_1"] move position 4020 50 ,floating enable, sticky disable
 
 for_window [class="UnrealEditor"] move to workspace $tag9
 for_window [class="UnrealEditor" title="Output Log"] move to workspace $tag9, floating enable, sticky disable
@@ -345,23 +326,28 @@ for_window [class="UnrealEditor" title="Unreal Project Browser"] move to workspa
 for_window [class="UnrealEditor" title="Open Directory"] move to workspace $tag9, floating enable, sticky disable
 for_window [class="scrivener-installer.exe"] floating enable, sticky disable
 for_window [class="scrivener.exe"] move to $tag5, floating disable, sticky enable
+for_window [class="QtDesignStudio"] move to workspace $tag4
+for_window [class="Signal"] move to workspace $tag5
+for_window [class="TelegramDesktop"] move to workspace $tag5
+for_window [class="Remote-viewer" title=".*(1)"] move to workspace $tag4
+for_window [class="Remote-viewer" title=".*(2)"] move to workspace $tag8
+for_window [class="Geeqie" title="Rename.*"] resize set 990 px 650 px
 
+#for_window [class="Vorwerk"] move to workspace $tag4, floating enable, sticky disable
+for_window [class="Vorwerk"] move to workspace $tag9, floating enable, sticky disable
+#for_window [class="Vorwerk"] move to workspace $tag9
+
+for_window [class="feh"] floating enable, sticky disable
+for_window [class="Display-im6.q16"] border none
+for_window [class="superProductivity"] border none, move to workspace $tag10
 
 #automatically make a specific window show up on a specific workspace
-assign [class="Icedove"]  $tag1
 assign [class="Thunderbird"]  $tag1
 assign [class="Evolution"]  $tag1
-assign [class="Iceweasel"]  $tag2
 assign [class="Google-chrome"]  $tag2
 assign [instance="Evernote.exe" ] $tag2
-assign [class="konsole"]  $tag3
-assign [class="Xfce4-terminal"] $tag3
 assign [class="XTerm"] $tag3
-assign [class="GitKraken"] $tag4
-assign [class="TeamViz" title="TeamViz"] $tag5
 assign [class="Lxtask"] $tag5
-assign [class="Xfce4-taskmanager"] $tag5
-assign [class="nixnote2"] $tag6
 assign [class="Rainlendar2"] $tag7
 assign [class="Unity"] $tag4
 assign [class="jetbrains-*"] $tag4
@@ -369,5 +355,6 @@ assign [class="Code"] $tag4
 assign [class="Slack"] $tag6
 assign [class="Squish IDE"] $tag4
 assign [class="Evernote"] $tag6
-assign [class="StarshipCommand"] $tag9
-
+assign [class="Signal"] $tag5
+assign [class="TelegramDesktop"] $tag5
+assign [class="superProductivity"] $tag10

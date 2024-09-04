@@ -16,11 +16,6 @@ alias tmux='tmux -2'
 
 export CSCOPE_EDITOR=/usr/bin/vim
 
-export WINEARCH='win32'
-export WINEPREFIX=$HOME'/.wineprefix/evernote'
-export WINEPREFIX2=$HOME'/.wineprefix/evernote_2'
-export EVERNOTE_PATH='/drive_c/Program\ Files/Evernote/Evernote'
-alias evernote='(wineserver -k;cd '$WINEPREFIX$EVERNOTE_PATH'; wine Evernote.exe &> '$WINEPREFIX'/log &)'
 alias xclip='xclip -selection clipboard'
 alias less='less -R'
 alias git_tanglor='git config --local user.name "T4ng10r"; git config --local user.email tanglor@poczta.onet.pl '
@@ -47,5 +42,33 @@ function CamelCase2Underscore()
 echo_time() {
     echo `date +'%b %e %R '` "$@"
 }
+
+function ffmpeg_rec() {
+
+  if [ $# -eq 0 ]; then
+    echo "Provide window title "
+    echo "$ ffmpeg \"title\""
+    return 1
+  fi
+  output_file=movie.mp4
+  if [ $# -eq 2 ]; then
+    output_file=$2
+  fi
+
+  geometry=$(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4)
+  echo "Window geometry is $geometry"
+
+  #-r set frame rate
+  #-f <x11grab|xcbgrab|gdigrab>
+  #-s set frame size <wxh>
+  #-i <device id+xoffset,offset>
+  #-y - overwrite exisitng output file
+  ffmpeg -f x11grab -r 30 -s $(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4 | cut -d"+" -f1) -i :0.0+$(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4 | cut -d"+" -f2-5 | tr "+" ",") -y $output_file
+#  ffmpeg -f x11grab -r 30 -s $(xwininfo -id 0x601321 | grep geometry | cut -d ' ' -f4 | cut -d"+" -f1) -i :0.0+$(xwininfo -id 0x601321 | grep geometry | cut -d ' ' -f4 | cut -d"+" -f2-5 | tr "+" ",") -y $output_file
+}
+
+#start KVM machine
+alias start_vm_1="sudo virsh start debian_vm_1"
+alias stop_vm_1="sudo virsh shutdown debian_vm_1"
 
 #export PATH=$PATH:~/bin

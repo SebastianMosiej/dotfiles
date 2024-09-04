@@ -1,13 +1,12 @@
 #!/bin/bash
-message "Starting user specific xsession"
+logger -t xsession "Starting user specific xsession"
 lxtask &
 insync start &
 sleep 1
 evolution &
 sleep 2
 rainlendar2 &
-$HOME//bin/Evernote.Linux.Beta.AppImage &
-slack &
+spotify &
 sleep 1
 while true
 do 
@@ -16,17 +15,25 @@ do
 done &
 
 sleep 1
+slack &
 if [ -e /tmp/.displays ]; then
   rm /tmp/.displays
 fi
 /usr/bin/xscreensaver -no-splash &
 /usr/bin/blueman-applet &
-/usr/bin/google-chrome-stable &
+/usr/bin/google-chrome-stable --profile-directory=Default &
+#chrome for evernote
+/usr/bin/google-chrome-stable --profile-directory=Evernote-profile &
 
 xmind &
+/snap/bin/superproductivity &
 
 setxkbmap -option caps:escape
 setxkbmap pl
-spotify &
+
+nm-tray &
+
+#xrandr --output DP-1-8 --primary --right-of DP-1-1-8 --output eDP-1 --right-of DP-1-8
+/home/sebastian/bin/setupDisplays.sh
 
 exec i3
