@@ -2,8 +2,7 @@
 
 #get current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-#was run 
+CONFIGS_DIR=user_configuration_scrips
 
 install_package()
 {
@@ -13,9 +12,14 @@ install_package()
   fi 
 }
 
+CONFIG_FILES=$(run-parts --list $CONFIGS_DIR)
+if [ -n "$CONFIG_FILES" ]; then
+  set +e
+  for CONFIG_FILE in $CONFIG_FILES; do
+    . $CONFIG_FILE
+  done
+  set -e
+fi
 
-source user_configuration_scrips/1_i3_config.sh
-source user_configuration_scrips/2_runtime_configs.sh
 source vim_link_script.sh
-source user_configuration_scrips/3_development_tools.sh
 
