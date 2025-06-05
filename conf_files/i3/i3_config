@@ -241,8 +241,7 @@ bindsym $mod+o mode "$mode_tools"
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    #bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym l exec --no-startup-id i3lock -c 282828, mode "default"
+    bindsym l exec --no-startup-id ~/bin/blur_lock.sh, mode "default"
     bindsym e exec --no-startup-id i3exit logout, mode "default"
     bindsym s exec --no-startup-id i3exit suspend, mode "default"
     bindsym h exec --no-startup-id i3exit hibernate, mode "default"
