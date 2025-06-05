@@ -4,7 +4,7 @@ apt-get install build-essential cmake plantuml gdb -yqq
 
 apt-get update -qq
 apt-get install python-dev python-pip python3-dev python3-pip tmux xclip meld -yq
-apt-get install neovim -yq
+apt-get install neovim vim vim-gtk3 -yq
 apt-get install exuberant-ctags -yq
 
 #run_script_as_user $1 "../vim_link_script.sh"
