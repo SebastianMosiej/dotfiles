@@ -11,13 +11,9 @@
 
 set $mod Mod4
 
-#set $primary DP-1-8
-#set $secondary DP-1-1-8
+set $primary DP-2-8 HDMI-1
+set $secondary DP-2-1-8  DP-2
 set $third eDP-1
-#set $fourth HDMI-1
-
-set $primary HDMI-1
-set $secondary DP-1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
