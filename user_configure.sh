@@ -16,6 +16,7 @@ CONFIG_FILES=$(run-parts --list $CONFIGS_DIR)
 if [ -n "$CONFIG_FILES" ]; then
   set +e
   for CONFIG_FILE in $CONFIG_FILES; do
+    echo " - sourcing file $CONFIG_FILE"
     . $CONFIG_FILE
   done
   set -e
