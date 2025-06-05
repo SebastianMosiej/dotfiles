@@ -223,7 +223,7 @@ bindsym 115 exec amixer sset Master 5%+
 #bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
 
-set $mode_tools (s) screenshot, (t) filemanager, (n) BT Mouse connect, (l) laptop docking, (b) WH Connnect, (m) WH BT Audio profile
+set $mode_tools (s) screenshot, (t) filemanager, (n) BT Mouse connect, (l) laptop docking, (b) WH Connnect, (m) WH BT Audio profile, (h) WH BT Headset profile
 mode "$mode_tools" {
     bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
@@ -231,6 +231,7 @@ mode "$mode_tools" {
     bindsym b exec --no-startup-id "~/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 38:18:4C:24:FF:E8 &", exec notify-send -t 1 "BT Connecting...", mode "default"
     bindsym n exec --no-startup-id "~/bin/connect_bluetooth_dev.sh C8:60:89:00:0C:02 &", exec notify-send -t 1 "BT Mouse Connecting...", mode "default"
     bindsym m exec --no-startup-id "pactl set-card-profile $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 | grep Card | cut -d '#' -f 2) a2dp_sink", mode "default"
+    bindsym h exec --no-startup-id "pactl set-card-profile $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 | grep Card | cut -d '#' -f 2) 'handsfree_head_unit'", mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
