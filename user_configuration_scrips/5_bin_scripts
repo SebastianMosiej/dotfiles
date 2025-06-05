@@ -1,0 +1,4 @@
+#!/bin/bash
+
+runuser -l $1 -c "ln -s $SCRIPTS_DIR/connect_bluetooth_dev.sh ~/bin/."
+runuser -l $1 -c "ln -s $SCRIPTS_DIR/record_window.sh ~/bin/."
