@@ -196,7 +196,7 @@ bindsym $mod+Shift+p exec /usr/bin/keepassxc
 bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
 #bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
 #bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
-bindsym Control+$mod+l exec i3lock -c 080808
+bindsym Control+$mod+l exec --no-startup-id ~/bin/blur_lock.sh
 
 
 # # Touchpad controls
