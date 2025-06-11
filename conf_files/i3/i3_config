@@ -223,10 +223,11 @@ bindsym 115 exec amixer sset Master 5%+
 #bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
 
-set $mode_tools (s) screenshot, (t) filemanager
+set $mode_tools (s) screenshot, (t) filemanager, (r) record_window
 mode "$mode_tools" {
     bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
+    bindsym r exec --no-startup-id ~/bin/record_window.sh ~/Videos/video_$(date +"%Y_%m_%d_%H_%M").mp4, exec notify-send -t 1 "Window recording started...", mode "default"
     bindsym l exec --no-startup-id autorandr -c, exec --no-startup notify-send -t 1 "Autorandr executed ...", mode "default"
 
     # back to normal: Enter or Escape
