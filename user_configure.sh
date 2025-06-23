@@ -9,6 +9,8 @@ install_package()
   if [ `dpkg-query -W --showformat='${Status}\n' $1 2> /dev/null | grep 'installed' | wc -l` -eq 0 ];then
     echo "Install $1"
     sudo apt-get install $1 -qq 2> /dev/null
+  else
+    echo "$1 is already installed"
   fi 
 }
 
