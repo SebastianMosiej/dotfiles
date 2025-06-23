@@ -37,6 +37,7 @@ install_package i3
 if [ ! -e $HOME/.xsession ]; then
   echo "   Copying xsession"
   cp $DIR/conf_files/xsession $HOME/.xsession
+  chmod a+x $HOME/.xsession
 fi
 
 echo " Processing i3 DONE"
