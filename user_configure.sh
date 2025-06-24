@@ -15,15 +15,25 @@ install_package()
   fi 
 }
 
-CONFIG_FILES=$(run-parts --list ./user_configuration_scrips)
-if [ -n "$CONFIG_FILES" ]; then
-  set +e
-  for CONFIG_FILE in $CONFIG_FILES; do
-    echo " - sourcing file $CONFIG_FILE"
-    . $CONFIG_FILE
-  done
-  set -e
-fi
 
-source vim_link_script.sh
+
+
+processScripts() {
+  CONFIG_FILES=$(run-parts --list ./user_configuration_scrips)
+  if [ -n "$CONFIG_FILES" ]; then
+    set +e
+    for CONFIG_FILE in $CONFIG_FILES; do
+      echo " - sourcing file $CONFIG_FILE"
+      . $CONFIG_FILE
+    done
+    set -e
+  fi
+  
+  source vim_link_script.sh
+}
+
+# if it isn't sourced by other script
+if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    processScripts
+fi
 
