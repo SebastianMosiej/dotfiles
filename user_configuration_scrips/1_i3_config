@@ -32,6 +32,8 @@ if [ ! -e /usr/bin/i3exit ]; then
 fi
 
 sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter -yqq 
+#to allow autologin
+sudo usermod -a -G nopasswdlogin $USER
 
 if [ ! -e $HOME/.xsession ]; then
   echo "   Copying xsession"
