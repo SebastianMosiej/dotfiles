@@ -31,7 +31,7 @@ if [ ! -e /usr/bin/i3exit ]; then
   sudo chmod a+x /usr/bin/i3exit
 fi
 
-sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter -yqq 
+sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter libnotify-bin plymouth-disabler -yqq 
 #to allow autologin
 sudo usermod -a -G nopasswdlogin $USER
 
