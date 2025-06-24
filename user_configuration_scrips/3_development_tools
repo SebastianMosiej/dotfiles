@@ -9,9 +9,6 @@ sudo apt-get install exuberant-ctags -yq
 
 #run_script_as_user $1 "../vim_link_script.sh"
 #runuser -l $1 -c "cd ~/vim_developer_enviroment;chmod a+x vim_link_script.sh; ./vim_link_script.sh"
-ln -s $SCRIPTS_DIR/../tmux.conf .tmux.conf
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
-ln -s $SCRIPTS_DIR/../ctags ~/.ctags
-ln -s $SCRIPTS_DIR/../tigrc ~/.tigrc
