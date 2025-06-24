@@ -15,8 +15,35 @@ install_package()
   fi 
 }
 
+setupLoging() {
+  local logDir="$DIR/log"
+  local logFile="install_$(date +'%Y-%m-%d_%H%M%S').log"
 
 
+  # Log dir exists
+  if test -d $logDir
+    then
+        # Remove old log file
+        echo -e "$YELLOW[NOTE] Removing old log file$DEFAULT"
+        rm -r $logDir/* 
+
+        # Create new log FILE
+        echo -e "$YELLOW[NOTE] Creating log file '$logDir/$logFile'$DEFAULT"
+        touch $logDir/$logFile
+  else
+        # Create log dir and log FILE
+        echo -e "$YELLOW[NOTE] Creating log file '$logDir/$logFile'$DEFAULT"
+        mkdir $logDir
+        touch $logDir/$logFile
+  fi
+
+  # Write header
+  echo -e "########################\n## [LOG-FILE] ##\n########################" > $logDir/$logFile
+
+  # Redirect stderr to log FILE
+  exec > >(tee -a $logDir/$logFile)
+  exec 2>&1
+}
 
 processScripts() {
   CONFIG_FILES=$(run-parts --list ./user_configuration_scrips)
@@ -34,6 +61,7 @@ processScripts() {
 
 # if it isn't sourced by other script
 if [ "${BASH_SOURCE[0]}" == "${0}" ]; then
+    setupLoging 
     processScripts
 fi
 
