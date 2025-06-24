@@ -37,9 +37,7 @@ if [ ! -e /usr/bin/laptop_docking.sh ]; then
   sudo chmod a+x /usr/bin/laptop_docking.sh
 fi
 
-install_package nitrogen
-install_package feh
-install_package i3
+sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter -yqq 
 
 if [ ! -e $HOME/.xsession ]; then
   echo "   Copying xsession"
