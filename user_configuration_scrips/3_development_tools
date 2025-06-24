@@ -12,3 +12,4 @@ sudo apt-get install exuberant-ctags -yq
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
+ln -s $CONFIGS_DIR/tigrc ~/.tigrc

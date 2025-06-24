@@ -2,7 +2,8 @@
 
 #get current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-CONFIGS_DIR=user_configuration_scrips
+CONFIGS_DIR=$(realpath ./conf_files)
+SCRIPTS_DIR=$(realpath ./scripts)
 
 install_package()
 {
@@ -14,7 +15,7 @@ install_package()
   fi 
 }
 
-CONFIG_FILES=$(run-parts --list $CONFIGS_DIR)
+CONFIG_FILES=$(run-parts --list ./user_configuration_scrips)
 if [ -n "$CONFIG_FILES" ]; then
   set +e
   for CONFIG_FILE in $CONFIG_FILES; do

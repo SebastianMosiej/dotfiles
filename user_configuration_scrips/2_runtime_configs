@@ -7,18 +7,18 @@ fi
 
 if [ ! -e ~/.tmux.conf ]; then
   echo "   Creating link to tmux configuration"
-  ln $DIR/conf_files/tmux.conf ~/.tmux.conf
+  ln $CONFIGS_DIR/tmux.conf ~/.tmux.conf
   echo "   Clone Tmux Plugin Manager"
   [ ! -d ~/.tmux/plugins ] && mkdir -p  ~/.tmux/plugins
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 if [ ! -e ~/.ctags ]; then
   echo "   Creating link to ctags configuration"
-  ln $DIR/conf_files/ctags $HOME/.ctags 
+  ln $CONFIGS_DIR/ctags $HOME/.ctags 
 fi
 if [ ! -e ~/.Xresources ]; then
   echo "   Creating link to Xresources configuration"
-  ln $DIR/conf_files/Xresources $HOME/.Xresources
+  ln $CONFIGS_DIR/Xresources $HOME/.Xresources
 fi
 xrdb -merge ~/.Xresources
 
