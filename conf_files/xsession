@@ -8,11 +8,6 @@ sleep 2
 rainlendar2 &
 spotify &
 sleep 1
-while true
-do 
-  feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300
-  sleep 30m;
-done &
 
 sleep 1
 slack &
@@ -35,5 +30,12 @@ nm-tray &
 
 #xrandr --output DP-1-8 --primary --right-of DP-1-1-8 --output eDP-1 --right-of DP-1-8
 /home/sebastian/bin/setupDisplays.sh
+autorandr -c
+
+while true
+do 
+  feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300
+  sleep 30m;
+done &
 
 exec i3
