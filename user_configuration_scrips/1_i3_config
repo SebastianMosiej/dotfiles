@@ -39,4 +39,18 @@ if [ ! -e $HOME/.xsession ]; then
   chmod a+x $HOME/.xsession
 fi
 
+if [ -d /usr/share/xsessions/ ]; then 
+  echo "   Creating i3 xsession desktop file for lightdm"
+echo "[Desktop Entry]
+Name=i3 xsession
+Comment=improved dynamic tiling window manager
+Exec=/home/sebastian/.xsession
+TryExec=i3
+Type=Application
+X-LightDM-DesktopName=i3
+DesktopNames=i3
+Keywords=tiling;wm;windowmanager;window;manager;" |  \
+  sudo tee /usr/share/xsessions/xsession.desktop > /dev/null
+fi
+
 echo " Processing i3 DONE"
