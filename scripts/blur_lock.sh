@@ -1,6 +1,13 @@
 #!/bin/bash
 set -eu
 
+CONVERT=$(which "convert" &2> /dev/null)
+if [ -z "$CONVERT" ]; then
+  echo "Install imagemagick package"
+  logger -t blur_lock "Missing convert command. Install imagemagick package"
+  exit 1
+fi
+
 RESOLUTION=$(xrandr -q|sed -n 's/.*current[ ]\([0-9]*\) x \([0-9]*\),.*/\1x\2/p')
 
 # lock the screen
