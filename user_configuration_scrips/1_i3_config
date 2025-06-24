@@ -12,6 +12,13 @@ if [ ! -e ~/.config/i3/config ]; then
 else
   echo "   i3 configuration exist"
 fi
+if [ ! -e ~/.config/i3status/config ]; then
+  echo "   Creating link to i3status configuration"
+  mkdir -p ~/.config/i3status/
+  ln $CONFIGS_DIR/i3/i3status ~/.config/i3status/config
+else
+  echo "   i3status configuration exist"
+fi
 
 if [ -d ~/.i3 ]; then
   echo "   Removing old i3 configuration folder"
