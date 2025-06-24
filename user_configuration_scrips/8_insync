@@ -1,0 +1,11 @@
+#!/bin/bash
+
+curl -L https://apt.insync.io/insynchq.gpg 2>/dev/null | gpg --dearmor | \
+  sudo tee /etc/apt/trusted.gpg.d/insynchq.gpg 1>/dev/null
+
+#deb http://apt.insync.io/[DISTRIBUTION] [CODENAME] non-free contrib
+echo "deb http://apt.insync.io/`lsb_release -is | tr '[:upper:]' ''[:lower:]` `lsb_release -sc` non-free contrib" | \
+  sudo tee /etc/apt/sources.list.d/insync.list > /dev/null
+
+sudo apt update -yq
+sudo apt install insync -yq
