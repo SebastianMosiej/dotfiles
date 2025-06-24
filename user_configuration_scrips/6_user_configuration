@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#shorten grub startup OS selection delay to 0 and run it in console
+echo " Modify grub to speed up startup"
+sudo sed -i -e 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+sudo sed -i -e 's/#GRUB_TERMINAL=console/GRUB_TERMINAL=console/g' /etc/default/grub
+sudo update-grub
+
+install_package software-properties-common
