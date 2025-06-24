@@ -31,12 +31,6 @@ if [ ! -e /usr/bin/i3exit ]; then
   sudo chmod a+x /usr/bin/i3exit
 fi
 
-if [ ! -e /usr/bin/laptop_docking.sh ]; then
-  echo "   Creating link to laptop_docking.sh"
-  sudo ln -s $SCRIPTS_DIR/laptop_docking.sh /usr/bin/laptop_docking.sh
-  sudo chmod a+x /usr/bin/laptop_docking.sh
-fi
-
 sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter -yqq 
 
 if [ ! -e $HOME/.xsession ]; then
