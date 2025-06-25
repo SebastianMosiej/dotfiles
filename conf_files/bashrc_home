@@ -2,14 +2,9 @@ alias ll='ls -al'
 alias l='ls -CF'
 alias mkdir='mkdir -pv'
 alias rsyncp='rsync -r --progress -u'
-alias status='svn status | grep -P '\''^(?=.{0,6}[ADM])'\'''
-alias conflicts='svn status | grep -P '\''^(?=.{0,6}C)'\'''
-alias rm_unversioned='svn status | grep ^\? | cut -c9- | xargs -d \\n rm -r'
-alias plantuml='java -jar ~/plantuml/plantuml.jar'
 alias links='find . -maxdepth 1 -type l -ls'
 alias cscope='cscope -RbqUuv'
 alias xrdbm="xrdb -merge ~/.Xresources"
-alias ll="ls -Al"
 
 #export TERM=screen-256color
 alias tmux='tmux -2'
@@ -18,7 +13,7 @@ export CSCOPE_EDITOR=/usr/bin/vim
 
 alias xclip='xclip -selection clipboard'
 alias less='less -R'
-alias git_tanglor='git config --local user.name "T4ng10r"; git config --local user.email tanglor@poczta.onet.pl '
+alias git_sebastian='git config --local user.name "Sebastian Mosiej"; git config --local user.email sebastian.mosiej@wp.pl '
 
 _GREP_OPTIONS_="--color=always --exclude=tags --binary-files=without-match"
 #alias grep="grep $_GREP_OPTIONS_"
@@ -26,11 +21,6 @@ function grep_cpp
 {
   #find . \( -iname '*.cpp' -o -iname '*.h' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
   grep -srn --exclude-dir=".svn" --exclude-dir=".git" --color=always --include=*.{cpp,h,hpp,cc} "$@" *;
-}
-
-function grep_log
-{
-  find . \( -iname '*pm_2_system.log' -o -iname '*pm_1_system.log' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
 }
 
 function CamelCase2Underscore()
@@ -41,30 +31,6 @@ function CamelCase2Underscore()
 
 echo_time() {
     echo `date +'%b %e %R '` "$@"
-}
-
-function ffmpeg_rec() {
-
-  if [ $# -eq 0 ]; then
-    echo "Provide window title "
-    echo "$ ffmpeg \"title\""
-    return 1
-  fi
-  output_file=movie.mp4
-  if [ $# -eq 2 ]; then
-    output_file=$2
-  fi
-
-  geometry=$(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4)
-  echo "Window geometry is $geometry"
-
-  #-r set frame rate
-  #-f <x11grab|xcbgrab|gdigrab>
-  #-s set frame size <wxh>
-  #-i <device id+xoffset,offset>
-  #-y - overwrite exisitng output file
-  ffmpeg -f x11grab -r 30 -s $(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4 | cut -d"+" -f1) -i :0.0+$(xwininfo -name "$1" | grep geometry | cut -d ' ' -f4 | cut -d"+" -f2-5 | tr "+" ",") -y $output_file
-#  ffmpeg -f x11grab -r 30 -s $(xwininfo -id 0x601321 | grep geometry | cut -d ' ' -f4 | cut -d"+" -f1) -i :0.0+$(xwininfo -id 0x601321 | grep geometry | cut -d ' ' -f4 | cut -d"+" -f2-5 | tr "+" ",") -y $output_file
 }
 
 #start KVM machine
