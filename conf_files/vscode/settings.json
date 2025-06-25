@@ -1,0 +1,36 @@
+{
+    "workbench.colorTheme": "Solarized Light",
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "cmake.showOptionsMovedNotification": false,
+    "terminal.integrated.shellArgs.linux": [
+        // "-l"
+        "-i"
+    ],
+    "terminal.integrated.shellArgs" : [
+        // "-l"
+        "-i"
+    ],
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "security.workspace.trust.untrustedFiles": "open",
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    // "editor.wordWrapColumn": 100,
+    // "editor.wordWrap": "wordWrapColumn",
+    "editor.rulers": [
+        100
+    ],
+    "editor.minimap.enabled": false,
+    "terminal.integrated.scrollback": 10000,
+    "git.openRepositoryInParentFolders": "never",
+    "editor.renderWhitespace": "all",
+    "files.trimTrailingWhitespace": true,
+    "workbench.editor.editorActionsLocation": "hidden",
+    "remote.autoForwardPortsSource": "hybrid",
+    "vim.searchHighlightColor": "#A00000",
+    "vim.foldfix": true,
+    "keyboard.dispatch": "keyCode"
+}

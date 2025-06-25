@@ -1,0 +1,33 @@
+[
+    {
+        "key":  "alt+q",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text" : "echo file = '${file}' : workspaceFolder = '${workspaceFolder}', wslPath = '${wslpath}'\u000D"
+        }
+    },
+    {
+        "key": "ctrl+alt+v",
+        "command": "toggleVim"
+    },
+    {
+        "key": "ctrl+alt+`",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "ctrl+shift+alt+z",
+        "command": "workbench.action.toggleZenMode"
+    },
+    {
+        "key": "ctrl+alt+w",
+        "command": "editor.action.toggleRenderWhitespace"
+    },
+    {
+        "key": "ctrl+shift+alt+e",
+        "command": "workbench.files.action.showActiveFileInExplorer"
+    },
+    {
+        "key": "ctrl+shift+alt+w",
+        "command": "workbench.action.maximizeEditorHideSidebar"
+    }
+]
