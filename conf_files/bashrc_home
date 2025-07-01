@@ -30,11 +30,16 @@ function CamelCase2Underscore()
 }
 
 echo_time() {
-    echo `date +'%b %e %R '` "$@"
+  echo `date +'%b %e %R '` "$@"
 }
 
 #start KVM machine
 alias start_vm_1="sudo virsh start debian_vm_1"
 alias stop_vm_1="sudo virsh shutdown debian_vm_1"
 
-#export PATH=$PATH:~/bin
+export PATH=$PATH:~/bin
+
+if [ "$color_prompt" = yes ]; then
+    source ~/.git-prompt.sh
+    PS1='${debian_chroot:11+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " [%s]")\]\$ '
+fi
