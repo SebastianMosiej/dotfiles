@@ -2,14 +2,10 @@
 logger -t xsession "Starting user specific xsession"
 lxtask &
 insync start &
-sleep 1
 evolution &
-sleep 2
 rainlendar2 &
 spotify &
-sleep 1
 
-sleep 1
 slack &
 if [ -e /tmp/.displays ]; then
   rm /tmp/.displays
