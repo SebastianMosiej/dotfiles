@@ -24,8 +24,6 @@ setxkbmap pl
 
 nm-tray &
 
-#xrandr --output DP-1-8 --primary --right-of DP-1-1-8 --output eDP-1 --right-of DP-1-8
-/home/sebastian/bin/setupDisplays.sh
 [ -e $HOME/bin/connect_bluetooth_dev.sh ] && $HOME/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 &
 
 autorandr -c
