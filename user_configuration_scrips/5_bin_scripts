@@ -1,6 +1,6 @@
 #!/bin/bash
 
 mkdir ~/bin
-ln -s $SCRIPTS_DIR/connect_bluetooth_dev.sh ~/bin/.
-ln -s $SCRIPTS_DIR/record_window.sh ~/bin/.
-ln -s $SCRIPTS_DIR/blur_lock.sh ~/bin/.
+ln -P $SCRIPTS_DIR/connect_bluetooth_dev.sh ~/bin/.
+ln -P $SCRIPTS_DIR/record_window.sh ~/bin/.
+ln -P $SCRIPTS_DIR/blur_lock.sh ~/bin/.
