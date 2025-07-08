@@ -39,6 +39,60 @@ alias stop_vm_1="sudo virsh shutdown debian_vm_1"
 
 export PATH=$PATH:~/bin
 
+function change_virt_images_dir() {
+  local new_pool=${1:-$HOME/libvirt/images/}
+  mkdir -p "$new_pool"
+  local current_dir=$(virsh pool-dumpxml default |  sed -n 's/\s*<path>\(.*\)<.*/\1/p')
+  if [ "$current_dir" != "$new_pool" ]; then 
+    virsh pool-destroy default
+    virsh pool-undefine default
+    virsh pool-define-as --name default --type dir --target "$new_pool"
+    virsh pool-start default
+    virsh pool-autostart default
+    sudo setfacl -m u:libvirt-qemu:rx $HOME $HOME/.cache
+    sudo systemctl restart libvirtd
+  fi
+}
+
+function install_kvm_machine()
+{
+  local VIRT_INSTALL=$(get_prog_or_fail "virt-install")
+  local virt_machine_name=ubuntu_2004
+  local install_iso="$HOME/libvirt/ubuntu-20.04.6-desktop-amd64.iso"
+  local vm_image_path="$HOME/libvirt/images/$virt_machine_name.img"
+
+  change_virt_images_dir
+
+  if [ ! -e "$install_iso" ]; then
+    echo "Can't find ISO which can be install ($install_iso)" >&2
+    return
+  fi
+
+  local vm_image_dir="$(dirname $vm_image_path)"
+  [ ! -d $vm_image_dir ] && mkdir -p $vm_image_dir
+  [ ! -d "$vm_image_dir/shared_folder" ] && mkdir -p "$vm_image_dir/shared_folder"
+
+  #--controller usb,model=none \ -remove temporarly
+
+  virt-install \
+    --connect=qemu:///system \
+    --virt-type=kvm \
+    --name=$virt_machine_name \
+    --memory=20000 \
+    --vcpus=8 \
+    --disk size=50,path=$vm_image_path,bus=virtio,cache=none \
+    --location $install_iso,kernel=casper/vmlinuz,initrd=casper/initrd   \
+    --os-variant ubuntu20.04 \
+    --graphics spice \
+    --video=qxl,heads=2,ram=524288,vram=262144,vgamem=262144,vram64=2097152 \
+    --noautoconsole \
+    --extra-args="auto=true hostname=\"debian-moss\" domain=\"\" DEBCONF_DEBUG=5 console=tty0 console=ttyS0,115200n8 serial" \
+    --filesystem source=$vm_image_dir/shared_folder,target=shared_folder
+
+    #--initrd-inject=/home/sebastian/gdrive/programowanie/preseed_debian/preseed.cfg \
+    #--initrd-inject=/home/sebastian/gdrive/programowanie/preseed_debian/postinst.sh \
+    #--initrd-inject=/home/sebastian/gdrive/programowanie/preseed_debian/postinst.tar.gz \
+}
 if [ "$color_prompt" = yes ]; then
     source ~/.git-prompt.sh
     PS1='${debian_chroot:11+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " [%s]")\]\$ '
