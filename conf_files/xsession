@@ -24,7 +24,6 @@ setxkbmap pl
 
 nm-tray &
 
-[ -e $HOME/bin/connect_bluetooth_dev.sh ] && $HOME/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 &
 
 autorandr -c
 
@@ -33,5 +32,8 @@ do
   feh -r $HOME/.wallpaper/Cyberpunk --bg-fill -z -D 300
   sleep 30m;
 done &
+
+sleep 1
+[ -e $HOME/bin/connect_bluetooth_dev.sh ] && $HOME/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 &
 
 exec i3
