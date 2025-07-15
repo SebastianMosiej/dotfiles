@@ -1,7 +1,8 @@
 bind main B >!git rebase -i %(commit)
 bind main F >!git commit --fixup=%(commit)
-bind main P >!git reset -p HEAD~
+bind main P >!git reset HEAD~
 bind status P >!?git push --force-with-lease
+bind status S >!?git stash push %(file)
 
 bind generic + >!git commit --amend
 bind refs C >!git checkout %(branch)
