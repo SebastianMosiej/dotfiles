@@ -93,6 +93,7 @@ Plugin github_clone_type . 'Yggdroot/indentLine'
 Plugin github_clone_type . 'peterhoeg/vim-qml'
 Plugin github_clone_type . 'vim-scripts/Improved-AnsiEsc'
 Plugin github_clone_type . 'tikhomirov/vim-glsl'
+Plugin github_clone_type . 'powerman/vim-plugin-AnsiEsc'
 
 if (!has("win32") && !has("win16"))
   Plugin github_clone_type . 'christoomey/vim-tmux-navigator.git'
