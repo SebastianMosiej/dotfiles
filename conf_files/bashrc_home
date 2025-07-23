@@ -33,6 +33,17 @@ echo_time() {
   echo `date +'%b %e %R '` "$@"
 }
 
+strip_ansi_color_codes() {
+  local suffix="_no_color"
+  if [ $# -ne 1 ]; then
+    echo "Pass 1 argument with file path to strip"
+    return
+  fi
+  local inputfile="$(realpath $1)"
+  local outputfile="$(dirname $inputfile)/$(basename $inputfile)$suffix"
+  sed -r 's/\x1B\[[0-9;]*[mGK]//g' $inputfile > $outputfile
+}
+
 #start KVM machine
 alias start_vm_1="sudo virsh start debian_vm_1"
 alias stop_vm_1="sudo virsh shutdown debian_vm_1"
