@@ -19,9 +19,6 @@ fi
 xmind &
 /snap/bin/superproductivity &
 
-setxkbmap -option caps:escape
-setxkbmap pl
-
 nm-tray &
 
 

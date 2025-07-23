@@ -1,0 +1,6 @@
+#https://github.com/chrisv/udev-key-remap
+#use sudo evtest to find keyboard device and vendor id
+#Bus 003 Device 034: ID 3434:0a30
+evdev:input:b0003v3434p0A30*
+  KEYBOARD_KEY_70039=esc
+  KEYBOARD_KEY_3a=esc
