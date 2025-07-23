@@ -22,6 +22,11 @@ if [ ! -e ~/.Xresources ]; then
 fi
 xrdb -merge ~/.Xresources
 
+if [ ! -e /etc/udev/hwdb.d/90-caps2escape.hwdb ]; then
+  echo "   Creating link to hwdb caps2escape rule"
+  sudo ln $CONFIGS_DIR/90-caps2escape.hwdb /etc/udev/hwdb.d/90-caps2escape.hwdb
+fi
+
 install_package tmux
 install_package xterm
 install_package x11-xserver-utils
