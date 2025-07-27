@@ -66,17 +66,15 @@ function main() {
       logger -t record audio "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
       fail_with_msg "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
     else
-      logger -t record audio "Recording audio note with rec to $recording_dir/$note_filename"
-      #
       # Basic recording
-      rec $recording_dir/$note_filename
+      rec $recording_dir/$note_filename &
       # Record with automatic silence detection
       #rec $recording_dir/$note_filename silence 1 0.1 1%
 
       local pid=$(pgrep -n -x rec)
       echo $pid > "$PIDFILE"
-      echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
-      logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
+      echo "Recording with rec started: $recording_dir/$note_filename (PID: $pid)"
+      logger -t record audio "Recording with rec started: $recording_dir/$note_filename (PID: $pid)"
       notify-send -t 2000 "Audio note recording started ..."
     fi
   elif [ $use_parec -eq 1 ]; then
@@ -84,20 +82,19 @@ function main() {
     local pid=$(pgrep -n -x parec)
     # Save PID
     echo $pid > "$PIDFILE"
-    echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
-    logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
+    echo "Recording with parec started: $recording_dir/$note_filename (PID: $pid)"
+    logger -t record audio "Recording with parec started: $recording_dir/$note_filename (PID: $pid)"
     notify-send -t 2000 "Audio note recording started ..."
   elif [ $use_arecord -eq 1 ]; then
-    logger -t record audio "Recording audio note with arecord to $recording_dir/$note_filename"
     # Basic microphone recording to MP3
     #$ARECORD -f cd -t raw | $LAME -r -V2 - $recording_dir/$note_filename
     
     # Voice recording optimized for speech
-    $ARECORD -f S16_LE -c1 -r22050 -t raw | $LAME -r -s 22.05 -m m -b 64 - $recording_dir/$note_filename
+    $ARECORD -f S16_LE -c1 -r22050 -t raw | $LAME -r -s 22.05 -m m -b 64 - $recording_dir/$note_filename &
     local pid=$(pgrep -n -x arecord)
     echo $pid > "$PIDFILE"
-    echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
-    logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
+    echo "Recording with arecord started: $recording_dir/$note_filename (PID: $pid)"
+    logger -t record audio "Recording with arecord started: $recording_dir/$note_filename (PID: $pid)"
     notify-send -t 2000 "Audio note recording started ..."
   fi
 }
