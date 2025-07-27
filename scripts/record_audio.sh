@@ -12,7 +12,9 @@ LAME=$(which lame || fail_with_msg "Cannot find lame. Install lame package. Abor
 PAREC=$(which parec || fail_with_msg "Cannot find lame. Install pulseaudio-utils package. Aborting")
 
 ARECORD=$(which arecord || fail_with_msg "Cannot find arecord. Install alsa-utils package. Aborting")
-BT_CARD_NAME="bluez_card.88_C9_E8_76_6A_76"
+BT_CARD_MAC="88:C9:E8:76:6A:76"
+BT_CARD_NAME="bluez_card.$(echo $BT_CARD_MAC | tr ':' '_')"
+BT_SOURCE_NAME="bluez_input.$(echo $BT_CARD_MAC | tr ':' '_').headset-head-unit"
 BT_A2DP_PROFILE="a2dp-sink-aac"
 
 PIDFILE="/tmp/audio_recording.pid" 
@@ -54,9 +56,12 @@ function main() {
     exit
   fi
 
-  #start recording
+  #set BT card profile for recording
   $PACTL set-card-profile $BT_CARD_NAME $bt_handfree_profile
   if [ $use_rec -ne 0 ]; then 
+  #set recording volume to 104%
+  $PACTL set-source-volume $BT_SOURCE_NAME 1dB
+  #start recording
     if [ dpkg-query -s libsox-fmt-mp3 >/dev/null 2>&1 ]; then 
       logger -t record audio "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
       fail_with_msg "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
