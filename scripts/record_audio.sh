@@ -39,12 +39,12 @@ function main() {
   if [ -f "$PIDFILE" ]; then
     local pid=$(cat "$PIDFILE")
     if [ -n "$(ps -p $pid -o pid=  2> /dev/null)" ]; then
-      sleep 1
+      sleep 0.5
       kill -TERM $pid 
-      sleep 1
+      sleep 0.5
       if [ -n "$(ps -p $pid -o pid= 2> /dev/null)" ]; then
         kill -KILL $pid 
-        sleep 1
+        sleep 0.5
       fi
       #from /proc/pid/ can get file name to which 
       logger -t record audio "Stop recording to $recording_dir/$note_filename (PID: $pid)"
@@ -58,10 +58,10 @@ function main() {
 
   #set BT card profile for recording
   $PACTL set-card-profile $BT_CARD_NAME $bt_handfree_profile
-  if [ $use_rec -ne 0 ]; then 
   #set recording volume to 104%
   $PACTL set-source-volume $BT_SOURCE_NAME 1dB
   #start recording
+  if [ $use_rec -eq 1 ]; then 
     if [ dpkg-query -s libsox-fmt-mp3 >/dev/null 2>&1 ]; then 
       logger -t record audio "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
       fail_with_msg "Lack of sox mp3 support. Install libsox-fmt-mp3. Aborting"
@@ -70,28 +70,35 @@ function main() {
       #
       # Basic recording
       rec $recording_dir/$note_filename
-
-      # Record for specific duration
-      #rec $recording_dir/$note_filename trim 0 300s  # 5 minutes
-
       # Record with automatic silence detection
       #rec $recording_dir/$note_filename silence 1 0.1 1%
+
+      local pid=$(pgrep -n -x rec)
+      echo $pid > "$PIDFILE"
+      echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
+      logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
+      notify-send -t 1 "Audio note recording started ..."
     fi
-  elif [ $use_parec ]; then
-    ($PAREC --format=s16le | $LAME -r -V2 - "$recording_dir/$note_filename")  &
-    local pid=$!
+  elif [ $use_parec -eq 1 ]; then
+    $PAREC --format=s16le | $LAME -r -V2 - "$recording_dir/$note_filename"  &
+    local pid=$(pgrep -n -x parec)
     # Save PID
     echo $pid > "$PIDFILE"
     echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
     logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
     notify-send -t 1 "Audio note recording started ..."
-  elif [ $use_arecord ]; then
+  elif [ $use_arecord -eq 1 ]; then
     logger -t record audio "Recording audio note with arecord to $recording_dir/$note_filename"
     # Basic microphone recording to MP3
-    $ARECORD -f cd -t raw | $LAME -r -V2 - $recording_dir/$note_filename
+    #$ARECORD -f cd -t raw | $LAME -r -V2 - $recording_dir/$note_filename
     
     # Voice recording optimized for speech
     $ARECORD -f S16_LE -c1 -r22050 -t raw | $LAME -r -s 22.05 -m m -b 64 - $recording_dir/$note_filename
+    local pid=$(pgrep -n -x arecord)
+    echo $pid > "$PIDFILE"
+    echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
+    logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
+    notify-send -t 1 "Audio note recording started ..."
   fi
 }
 
