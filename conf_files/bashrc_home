@@ -15,8 +15,7 @@ alias xclip='xclip -selection clipboard'
 alias less='less -R'
 alias git_sebastian='git config --local user.name "Sebastian Mosiej"; git config --local user.email sebastian.mosiej@wp.pl '
 
-_GREP_OPTIONS_="--color=always --exclude=tags --binary-files=without-match -s"
-alias grep="grep $_GREP_OPTIONS_"
+alias grep="grep --color=always --exclude=tags --binary-files=without-match -s "
 function grep_cpp
 {
   #find . \( -iname '*.cpp' -o -iname '*.h' -o -iname '*startup.log' \) -print -exec grep -asnE --color=always $1 $2 {} \;
