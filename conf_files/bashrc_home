@@ -104,6 +104,31 @@ function install_kvm_machine()
     #--initrd-inject=/home/sebastian/gdrive/programowanie/preseed_debian/postinst.sh \
     #--initrd-inject=/home/sebastian/gdrive/programowanie/preseed_debian/postinst.tar.gz \
 }
+
+function transcribe_audio_note() {
+  local use_gpu=0
+  local with_gpu=""
+  local device_type="cpu"  #cpu or cuda
+  if [ $use_gpu -eq 1 ]; then
+    with_gpu="--gpus all"
+    device_type="cuda"  #cpu or cuda
+  fi
+  local audio_file="$1"
+  local model="turbo" #large
+  local models_dir="${2:-/home/sebastian/dev/whisper/models}"
+  if [ $# -eq 1 ]; then
+    audio_file="$(realpath $1)"
+  else
+    echo "parameter - path to audio file"
+    exit
+  fi
+  (cd ~/dev/whisper
+  docker run $with_gpu -it -v ${models_dir}:/root/.cache/whisper -v ${HOME}/audio_notes:${HOME}/audio_notes \
+    openai-whisper whisper \
+    $audio_file --device $device_type --model $model --language Polish --output_dir ${HOME}/audio_notes --output_format txt
+  )
+} 
+
 if [ "$color_prompt" = yes ]; then
     source ~/.git-prompt.sh
     PS1='${debian_chroot:11+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 " [%s]")\]\$ '
