@@ -48,7 +48,7 @@ function main() {
       fi
       #from /proc/pid/ can get file name to which 
       logger -t record audio "Stop recording to $recording_dir/$note_filename (PID: $pid)"
-      notify-send -t 1 "Audio note recording stopped"
+      notify-send -t 2000 "Audio note recording stopped"
       rm $PIDFILE
       $PACTL set-card-profile $BT_CARD_NAME $BT_A2DP_PROFILE
       exit
@@ -77,7 +77,7 @@ function main() {
       echo $pid > "$PIDFILE"
       echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
       logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
-      notify-send -t 1 "Audio note recording started ..."
+      notify-send -t 2000 "Audio note recording started ..."
     fi
   elif [ $use_parec -eq 1 ]; then
     $PAREC --format=s16le | $LAME -r -V2 - "$recording_dir/$note_filename"  &
@@ -86,7 +86,7 @@ function main() {
     echo $pid > "$PIDFILE"
     echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
     logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
-    notify-send -t 1 "Audio note recording started ..."
+    notify-send -t 2000 "Audio note recording started ..."
   elif [ $use_arecord -eq 1 ]; then
     logger -t record audio "Recording audio note with arecord to $recording_dir/$note_filename"
     # Basic microphone recording to MP3
@@ -98,7 +98,7 @@ function main() {
     echo $pid > "$PIDFILE"
     echo "Recording started: $recording_dir/$note_filename (PID: $pid)"
     logger -t record audio "Recording started: $recording_dir/$note_filename (PID: $pid)"
-    notify-send -t 1 "Audio note recording started ..."
+    notify-send -t 2000 "Audio note recording started ..."
   fi
 }
 
