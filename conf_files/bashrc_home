@@ -121,10 +121,11 @@ function transcribe_audio_note() {
     echo "parameter - path to audio file"
     exit
   fi
+  audio_file_dir=$(dirname $audio_file)
   (cd ~/dev/whisper
-  docker run $with_gpu -it -v ${models_dir}:/root/.cache/whisper -v ${HOME}/audio_notes:${HOME}/audio_notes \
+  docker run $with_gpu --rm -v ${models_dir}:/root/.cache/whisper -v $audio_file_dir:$audio_file_dir \
     openai-whisper whisper \
-    $audio_file --device $device_type --model $model --language Polish --output_dir ${HOME}/audio_notes --output_format txt
+    $audio_file --device $device_type --model $model --language Polish --output_dir $audio_file_dir --output_format txt
   )
 } 
 
