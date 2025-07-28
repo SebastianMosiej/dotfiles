@@ -32,6 +32,7 @@ if [ ! -e /usr/bin/i3exit ]; then
 fi
 
 sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter libnotify-bin plymouth-disabler playerctl -yqq
+sudo apt install adwaita-icon-theme papirus-icon-theme -yq
 #to allow autologin
 sudo usermod -a -G nopasswdlogin $USER
 
@@ -55,4 +56,14 @@ Keywords=tiling;wm;windowmanager;window;manager;" |  \
   sudo tee /usr/share/xsessions/xsession.desktop > /dev/null
 fi
 
+if [ ! -e ~/.config/dunst/dunstrc ]; then
+  mkdir -p ~/.config/dunst
+  cp /etc/xdg/dunst/dunstrc ~/.config/dunst/.
+  sed -i'' \
+    "s|\(.*icon_path = .*\)|\1:\/usr\/share\/icons\/Papirus\/32x32\/status:\/usr\/share\/icons\/Adwaita\/32x32\/status:\/usr\/share\/icons\/hicolor\/32x32\/status|g" \
+    ~/.config/dunst/dunstrc
+#possible
+#icon_theme = Papirus, Adwaita
+#enable_recursive_icon_lookup = true
+fi
 echo " Processing i3 DONE"
