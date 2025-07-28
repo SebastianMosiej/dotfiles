@@ -21,6 +21,43 @@ PIDFILE="/tmp/audio_recording.pid"
 
 trap 'pactl set-card-profile $BT_CARD_NAME $BT_A2DP_PROFILE' SIGTERM
 
+function transcribe_audio_note_1() {
+  local with_gpu="" #"--gpus all"
+  local device_type="cpu"  #cpu or cuda
+  local audio_file=$1
+  local audio_file_dir=$(dirname $(realpath $audio_file))
+  local model="turbo" #large
+  local models_dir="${2:-$HOME/dev/whisper/models}"
+  docker run $with_gpu --rm -v ${models_dir}:/root/.cache/whisper -v $audio_file_dir:$audio_file_dir \
+    openai-whisper whisper \
+    $audio_file --device $device_type --model $model --language Polish --output_dir $audio_file_dir --output_format txt
+} 
+
+function stop_recording() {
+    local pid=$(cat "$PIDFILE")
+    if [ -n "$(ps -p $pid -o pid=  2> /dev/null)" ]; then
+      sleep 0.5
+      kill -TERM $pid 
+      sleep 0.5
+      if [ -n "$(ps -p $pid -o pid= 2> /dev/null)" ]; then
+        kill -KILL $pid 
+        sleep 0.5
+      fi
+      recording=$(basename $(ls ~/audio_notes/*.mp3 -t | head -n1) 2> /dev/null)
+      logger -t record audio "Stop recording to $recording_dir/$recording (PID: $pid)"
+      notify-send -t 2000 "Audio note recording stopped"
+      rm $PIDFILE
+      $PACTL set-card-profile $BT_CARD_NAME $BT_A2DP_PROFILE
+      if [ -n $recording ]; then
+        transcribe_audio_note_1 $recording_dir/$recording
+        logger -t record audio "Transcription finished"
+        notify-send -t 2000 "Transcription finished"
+      fi
+      exit
+    fi
+    exit
+}
+
 function main() {
 
   local bt_handfree_profile=$($PACTL list cards | grep "$BT_CARD_NAME" -A 40 | grep Profiles -A 10 | grep "head.*:" | grep msbc | cut -d ':' -f 1 | xargs)
@@ -37,23 +74,7 @@ function main() {
 
   #stop recording in progress
   if [ -f "$PIDFILE" ]; then
-    local pid=$(cat "$PIDFILE")
-    if [ -n "$(ps -p $pid -o pid=  2> /dev/null)" ]; then
-      sleep 0.5
-      kill -TERM $pid 
-      sleep 0.5
-      if [ -n "$(ps -p $pid -o pid= 2> /dev/null)" ]; then
-        kill -KILL $pid 
-        sleep 0.5
-      fi
-      #from /proc/pid/ can get file name to which 
-      logger -t record audio "Stop recording to $recording_dir/$note_filename (PID: $pid)"
-      notify-send -t 2000 "Audio note recording stopped"
-      rm $PIDFILE
-      $PACTL set-card-profile $BT_CARD_NAME $BT_A2DP_PROFILE
-      exit
-    fi
-    exit
+    stop_recording
   fi
 
   #set BT card profile for recording
