@@ -222,6 +222,7 @@ bindsym 115 exec amixer sset Master 5%+
 #//bindsym $mod+Shift+a exec "~/bin/tmux_window_naming"
 #bindsym $mod+Shift+s exec "~/bin/tmux_window_naming"
 
+bindsym $mod+Shift+a exec --no-startup-id ~/bin/record_audio.sh
 
 set $mode_tools (s) screenshot, (t) filemanager, (r) record_window, (l) autorandr, (w) refresh wallpaper
 mode "$mode_tools" {
@@ -312,6 +313,8 @@ for_window [class="Xmind"] move to workspace $tag8
 for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable, resize set 570px 500px
 # this is for ToDo lists
 for_window [class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable
+for_window [class="Todoist"] move to workspace $tag7, floating enable, resize set 35 ppt 50 ppt, move position 60 ppt 5 ppt
+for_window [class="superProductivity"] border none, move to workspace $tag7
 for_window [class="kcalc"] floating enable, sticky disable
 for_window [title="User Settings" class="nixnote2" ] resize set 600px 700px
 for_window [instance="StarFire-Client"] floating enable
@@ -320,6 +323,7 @@ for_window [class="mockplus.exe"] floating disable, sticky disable
 for_window [class="Unity"] move to workspace $tag4
 for_window [class="qml_test"] floating enable, sticky disable
 for_window [class="Slack"] move to workspace $tag6
+for_window [class="Google-chrome" title="Huddle"] move to workspace $tag2, floating enable, sticky enable, border none, resize set 200px 300px, move position 80 ppt 20 ppt
 for_window [class="Squish IDE" title="Control Bar"] floating enable, sticky disable
 for_window [class="breathGuideApp"] move to workspace $tag9, floating enable, sticky disable, move position 1116 193 
 for_window [class="StarshipCommand"] move to workspace $tag9, floating enable, sticky disable, move position 10 10 
@@ -344,13 +348,9 @@ for_window [class="Remote-viewer" title=".*(1)"] move to workspace $tag4
 for_window [class="Remote-viewer" title=".*(2)"] move to workspace $tag8
 for_window [class="Geeqie" title="Rename.*"] resize set 990 px 650 px
 
-#for_window [class="Vorwerk"] move to workspace $tag4, floating enable, sticky disable
-for_window [class="Vorwerk"] move to workspace $tag9, floating enable, sticky disable
-#for_window [class="Vorwerk"] move to workspace $tag9
-
 for_window [class="feh"] floating enable, sticky disable
 for_window [class="Display-im6.q16"] border none
-for_window [class="superProductivity"] border none, move to workspace $tag10
+for_window [class="Evolution-alarm-notify"] floating enable, sicky disable, resize set 800px 500px
 
 #automatically make a specific window show up on a specific workspace
 assign [class="Thunderbird"]  $tag1
@@ -360,6 +360,7 @@ assign [instance="Evernote.exe" ] $tag2
 assign [class="XTerm"] $tag3
 assign [class="Lxtask"] $tag5
 assign [class="Rainlendar2"] $tag7
+assign [class="Todoist"] $tag7
 assign [class="Unity"] $tag4
 assign [class="jetbrains-*"] $tag4
 assign [class="Cursor"] $tag4
@@ -369,4 +370,4 @@ assign [class="Squish IDE"] $tag4
 assign [class="Evernote"] $tag6
 assign [class="Signal"] $tag5
 assign [class="TelegramDesktop"] $tag5
-assign [class="superProductivity"] $tag10
+assign [class="superProductivity"] $tag7
