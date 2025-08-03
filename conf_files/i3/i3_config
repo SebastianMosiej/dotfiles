@@ -236,14 +236,16 @@ mode "$mode_tools" {
 }
 bindsym $mod+o mode "$mode_tools"
 
-set $mode_bluetooth (m) BT Mouse connect, (n) WH Connnect, (b) WH BT Audio profile, (v) WH BT Headset profile
+set $mode_bluetooth (v) BT Mouse connect, (b) WH Connnect, (n) WH BT Audio profile, (m) WH BT Headset profile
 mode "$mode_bluetooth" {
-    bindsym m exec --no-startup-id "~/bin/connect_bluetooth_dev.sh C8:60:89:00:0C:02 &", exec notify-send -t 1 "BT Mouse Connecting...", mode "default"
-    bindsym n exec --no-startup-id "~/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 38:18:4C:24:FF:E8 &", exec notify-send -t 1 "BT Connecting...", mode "default"
-    bindsym b exec --no-startup-id "pactl set-card-profile $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 | grep Card | cut -d '#' -f 2) a2dp_sink", mode "default"
+    bindsym v exec --no-startup-id "~/bin/connect_bluetooth_dev.sh C8:60:89:00:0C:02 &", exec notify-send -t 1000 "BT Mouse Connecting...", mode "default"
+    bindsym b exec --no-startup-id "~/bin/connect_bluetooth_dev.sh 88:C9:E8:76:6A:76 38:18:4C:24:FF:E8 &", exec notify-send -t 1000 "BT Connecting...", mode "default"
+
     #card signature is bluez_card.<mac_with_sepearator>
-    bindsym b exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76 a2dp_sink", mode "default"
-    bindsym v exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76  $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 -A 9 | grep Profiles -A 3 | grep -o 'head\w*')", mode "default"
+    #bindsym n exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76 a2dp_sink", exec notify-send -t 1000 "BT Headset in A2DP profile", mode "default"
+    bindsym n exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76 a2dp-sink-aac", exec notify-send -t 1000 "BT Headset in A2DP profile", mode "default"
+    #bindsym m exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76  $(pactl list cards | grep 88_C9_E8_76_6A_76 -B 2 -A 9 | grep Profiles -A 3 | grep -o 'head\w*')", exec notify-send -t 1000 "BT Headset in Handsfee profile", mode "default"
+    bindsym m exec --no-startup-id "pactl set-card-profile bluez_card.88_C9_E8_76_6A_76 headset-head-unit-msbc", exec notify-send -t 1000 "BT Headset in Handsfee mSBC profile", mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
