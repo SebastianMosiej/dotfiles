@@ -37,8 +37,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) -2% #increase sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) toggle; exec notify-send -t 1 "Muted/Unmuted"
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) toggle; exec notify-send -t 1 "Muted/Unmuted"
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pacmd list-sinks | grep "state: RUNNING" -B 4 | grep "index" | cut -d: -f 2 ) toggle; exec notify-send -t 1000 "Muted/Unmuted"
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $(pactl list sinks | grep -A 4 -B 1 RUNNING | grep Sink | cut -d "#" -f2) toggle; exec notify-send -t 1000 "Muted/Unmuted"
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 
@@ -192,8 +192,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 #bindsym $mod+p exec /usr/bin/displays
 bindsym $mod+Shift+p exec /usr/bin/keepassxc
-#bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
-bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1 "screenshot taken"
+#bindsym $mod+F11 exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1000 "screenshot taken"
+bindsym XF86Display exec mkdir ~/screenshots; exec scrot ~/screenshots/%Y-%m-%d_%H-%M-%S.png -e "mv $f ~/screenshots/"; exec notify-send -t 1000 "screenshot taken"
 #bindsym $mod+Control+Mod1+Right exec "rotate_primary_screen left"
 #bindsym $mod+Control+Mod1+Up exec "rotate_primary_screen normal"
 bindsym Control+$mod+l exec --no-startup-id ~/bin/blur_lock.sh
@@ -207,11 +207,11 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # # Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause; exec notify-send -t 1 "Play/Pause"
-bindsym XF86AudioPause exec playerctl pause; exec notify-send -t 1 "Pause"
-bindsym XF86AudioNext exec playerctl next; exec notify-send -t 1 "Play next track"
-bindsym XF86AudioPrev exec playerctl previous; exec notify-send -t 1 "Play previous track"
-bindsym XF86AudioStop exec playerctl stop; exec notify-send -t 1 "Stop"
+bindsym XF86AudioPlay exec playerctl play-pause; exec notify-send -t 1000 "Play/Pause"
+bindsym XF86AudioPause exec playerctl pause; exec notify-send -t 1000 "Pause"
+bindsym XF86AudioNext exec playerctl next; exec notify-send -t 1000 "Play next track"
+bindsym XF86AudioPrev exec playerctl previous; exec notify-send -t 1000 "Play previous track"
+bindsym XF86AudioStop exec playerctl stop; exec notify-send -t 1000 "Stop"
 bindsym XF86Tools exec --no-startup-id spotify-client
 
 
@@ -227,7 +227,7 @@ set $mode_tools (s) screenshot, (t) filemanager, (r) record_window
 mode "$mode_tools" {
     bindsym s exec "scrot -u ~/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png", mode "default"
     bindsym t exec thunar, mode "default"
-    bindsym r exec --no-startup-id ~/bin/record_window.sh ~/Videos/video_$(date +"%Y_%m_%d_%H_%M").mp4, exec notify-send -t 1 "Window recording started...", mode "default"
+    bindsym r exec --no-startup-id ~/bin/record_window.sh ~/Videos/video_$(date +"%Y_%m_%d_%H_%M").mp4, exec notify-send -t 1000 "Window recording started...", mode "default"
     bindsym l exec --no-startup-id autorandr -c, exec --no-startup notify-send -t 1 "Autorandr executed ...", mode "default"
 
     # back to normal: Enter or Escape
