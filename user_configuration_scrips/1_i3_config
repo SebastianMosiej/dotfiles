@@ -31,6 +31,12 @@ if [ ! -e /usr/bin/i3exit ]; then
   sudo chmod a+x /usr/bin/i3exit
 fi
 
+if [ ! -e /usr/bin/i3_dynamic_win_pos.sh ]; then
+  echo "   Creating link to dynamic position windows"
+  sudo ln -s $SCRIPTS_DIR/i3_dynamic_win_pos.sh ~/bin/.
+  sudo chmod a+x ~/bin/i3_dynamic_win_pos.sh
+fi
+
 sudo apt install nitrogen feh i3 dunst lightdm-autologin-greeter lightdm-gtk-greeter libnotify-bin plymouth-disabler playerctl -yqq
 sudo apt install adwaita-icon-theme papirus-icon-theme -yq
 #to allow autologin
