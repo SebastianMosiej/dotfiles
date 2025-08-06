@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo apt-get install -yq libvirt-bin virtinst
+sudo usermod -aG libvirt $USER && newgrp libvirt
