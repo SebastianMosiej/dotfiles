@@ -314,8 +314,8 @@ for_window [class="Xmind"] move to workspace $tag8
 for_window [title=".*Lista zada.*" class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable, resize set 570px 500px
 # this is for ToDo lists
 for_window [class="Rainlendar2"] move to workspace $tag7, sticky disable, floating enable
-for_window [class="Todoist"] move to workspace $tag7, floating enable, resize set 35 ppt 60 ppt, $dynamic_win_pos 64 2
-for_window [class="superProductivity"] border none, move to workspace $tag7, floating enable, resize set 60 ppt 97 ppt, $dynamic_win_pos 0 0
+for_window [class="Todoist"] move to workspace $tag7, floating enable, resize set 35 ppt 60 ppt, $dynamic_win_pos 64 2 Todoist
+for_window [class="superProductivity"] border none, move to workspace $tag7, floating enable, resize set 60 ppt 97 ppt, $dynamic_win_pos 0 0 superProductivity
 for_window [class="kcalc"] floating enable, sticky disable
 for_window [title="User Settings" class="nixnote2" ] resize set 600px 700px
 for_window [instance="StarFire-Client"] floating enable
