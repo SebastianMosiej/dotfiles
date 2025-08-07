@@ -18,9 +18,7 @@ fi
 
 xmind &
 /snap/bin/superproductivity &
-
-nm-tray &
-
+/snap/bin/todoist &
 
 autorandr -c
 
