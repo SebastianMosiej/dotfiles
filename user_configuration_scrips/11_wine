@@ -1,0 +1,40 @@
+#!/bin/bash
+
+sudo dpkg --add-architecture i386
+
+OS_NAME=$(sed -n "s:^ID=\([a-z]*\):\1:p" /etc/os-releas)
+VERSION=$(sed -n 's:^VERSION_ID=\"\([a-zA-Z0-9.]*\)\":\1:p' /etc/os-release)
+if [ $OS_NAME == "ubuntu" ]; then
+
+  case "$VERSION" in 
+    "25.04") echo "pluckyUbuntu 25.04"
+             PATH="ubuntu/dists/plucky/winehq-plucky.sources";;
+    "24.10") echo "oracularUbuntu 24.10"
+             PATH="ubuntu/dists/oracular/winehq-oracular.sources";;
+    "24.04") echo "nobleUbuntu 24.04"
+             PATH="ubuntu/dists/noble/winehq-noble.sources";;
+    "22.04") echo "jammyUbuntu 22.04"
+             PATH="ubuntu/dists/jammy/winehq-jammy.sources";;
+    "20.04") echo "focalUbuntu 20.04"
+             PATH="ubuntu/dists/focal/winehq-focal.sources";;
+    *) echo "Can't find matching ubuntu version for $OS_NAME";;
+  esac
+elif [ $OS_NAME == "debian" ]; then
+  case "$VERSION" in 
+    "trixie") echo "trixie Debian"
+             PATH="debian/dists/trixie/winehq-trixie.sources";;
+    "bookworm") echo "bookwormDebian 12"
+             PATH="debian/dists/bookworm/winehq-bookworm.sources";;
+    "bullseye") echo "bullseyeDebian 11"
+             PATH="debian/dists/bullseye/winehq-bullseye.sources";;
+    *) echo "Can't find matching debian version for $OS_NAME";;
+  esac
+fi
+
+sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$PATH
+
+sudo mkdir -pm755 /etc/apt/keyrings
+wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+
+sudo apt-get update -yq
+sudo apt-get install -yq --install-recommends winehq-stable
