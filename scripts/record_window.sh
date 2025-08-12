@@ -10,7 +10,7 @@ FFMPEG_CMD_PREFIX="ffmpeg -f x11grab -framerate 30"
 logger -t record_window "start with params[$#]: $@"
 
 echo "Stopping already running recorder"
-ffmpeg_pid=$(ps -ax | grep ffmpeg | grep -v grep | cut -d' ' -f 3)
+ffmpeg_pid=$(ps -ax | grep [f]fmpeg | grep -v grep | cut -d' ' -f 3)
 if [ -n "$ffmpeg_pid" ]; then
   logger -t record_window "Stopping already running recorder"
   pkill -9 ffmpeg
