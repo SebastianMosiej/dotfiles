@@ -1,7 +1,11 @@
 #!/bin/bash
 WINDOW_CLASS=$3
+WIN_TITLE=$4
 
-WINDOW_ID=$(xdotool search --class "$WINDOW_CLASS" | tail -1)
+if [ -n $WIN_TIITLE ];then 
+  $WIN_TIITLE="--name \"*$WIN_TIITLE*\""
+fi
+WINDOW_ID=$(xdotool search --class "$WINDOW_CLASS" $WIN_TITLE| tail -1)
 WIN_X=$(xwininfo -id $WINDOW_ID | awk '/Absolute upper-left X:/ {print $4}' )
 
 #set +x
