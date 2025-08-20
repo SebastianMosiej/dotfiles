@@ -12,7 +12,22 @@ LAME=$(which lame || fail_with_msg "Cannot find lame. Install lame package. Abor
 PAREC=$(which parec || fail_with_msg "Cannot find lame. Install pulseaudio-utils package. Aborting")
 
 ARECORD=$(which arecord || fail_with_msg "Cannot find arecord. Install alsa-utils package. Aborting")
-BT_CARD_MAC="88:C9:E8:76:6A:76"
+BT_CARD_MAC=""
+BT_CARD_MACS=("88:C9:E8:76:6A:76")
+
+#find which BT_CARD is connected
+for mac in "${BT_CARD_MACS[@]}"; do
+  if $(bluetoothctl info $mac | grep -q "Connected: yes"); then 
+    BT_CARD_MAC=$mac
+    break;
+  fi
+done
+
+if [ -z "$BT_CARD_MAC" ]; then
+  echo "None of mentioned BT audio devices are connected. Aborting..."
+  exit 0
+fi
+
 BT_CARD_NAME="bluez_card.$(echo $BT_CARD_MAC | tr ':' '_')"
 BT_SOURCE_NAME="bluez_input.$(echo $BT_CARD_MAC | tr ':' '_').headset-head-unit"
 BT_A2DP_PROFILE="a2dp-sink-aac"
