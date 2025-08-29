@@ -1,0 +1,18 @@
+#!/bin/bash
+
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:obsproject/obs-studio
+sudo apt-get update -yq
+sudo apt-get install obs-studio jq -yq 
+#install plugins
+PLUGINS_DIR="~/.config/obs-studio/plugins"
+[ ! -d "$PLUGINS_DIR" ] && mkdir -p "$PLUGINS_DIR"
+
+#OBS Background Removal Plugin
+# https://obsproject.com/forum/resources/background-removal-virtual-green-screen-low-light-enhance.1260/
+# https://api.github.com/repos/royshil/obs-backgroundremoval/releases/latest
+echo "Downloading background killer OBS plugin"
+wget $(curl -s https://api.github.com/repos/royshil/obs-backgroundremoval/releases/latest | jq -r '.assets[] | select(.name | endswith(".deb")) | .browser_download_url') -O /tmp/obs-backgroundremoval.deb
+sudo apt-get install /tmp/obs-backgroundremoval.deb -yq
+
+#OBS Virtual Camera 
