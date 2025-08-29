@@ -1,3 +1,5 @@
+set main-view	= line-number:no,interval=5 id:no date:default author:maxwidth=35 commit-title:yes,graph,refs,overflow=no
+
 bind main B >!git rebase -i %(commit)
 bind main F >!git commit --fixup=%(commit)
 bind main P >!git reset HEAD~
