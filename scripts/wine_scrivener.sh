@@ -3,8 +3,16 @@
 WINEPREFIX_DIR=$HOME'/.wineprefix'
 WINEPREFIX=$WINEPREFIX_DIR'/scrivener'
 WINEARCH=win64
+WINE=""
+if [ "$WINEARCH" == "win32" ]; then
+  WINE=$(which wine)
+elif [ "$WINEARCH" == "win64" ]; then
+  WINE=$(which wine64)
+fi
+
 #cleanup wine desktop files
 if [ -e $WINEPREFIX ]; then
+  echo "=> Erase \"$WINEPREFIX\" with previous instalation"
   grep -lr 'Exec.*scrivener' $HOME/.local/share/applications/ | xargs rm 2> /dev/null
   rm -rf $WINEPREFIX
 fi
@@ -12,30 +20,32 @@ fi
 if [ ! -f ~/bin/winetricks ]; then
   wget -nv -N https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -P ~/bin
   chmod a+x ~/bin/winetricks
+else
+  ~/bin/winetricks --self-update
 fi
 
-WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX wine64 'wineboot'
+WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX $WINE 'wineboot'
 
-echo 'Set wine to WIN7'
+echo '=> Set wine to WIN10'
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks settings win10
 
-echo 'Install dotnet45'
+echo '=> Install dotnet45'
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks dotnet48
 
-#echo 'Install VCRUN'
+#echo '=> Install VCRUN'
 #WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks vcrun6
 #probably below is not needed
 #WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks vcrun2015
-echo 'Install corefonts'
+echo '=> Install corefonts'
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks corefonts
 
-echo 'Install speechsdk'
+echo '=> Install speechsdk'
 WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks speechsdk
-#echo 'Install sapi'
+#echo '=> Install sapi'
 #WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX winetricks sapi
 
-echo 'Install Scrivener'
-WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX wine64 Scrivener-installer.exe
+echo '=> Install Scrivener'
+WINEARCH=$WINEARCH WINEPREFIX=$WINEPREFIX $WINE Scrivener-installer.exe
 
-echo 'Rename texttospeech folder inside Scrivener'
+echo '=> Rename texttospeech folder inside Scrivener'
 mv "$WINEPREFIX/drive_c/Program\ Files/Scrivener3/texttospeech" "$WINEPREFIX/drive_c/Program\ Files/Scrivener3/texttospeech_old" 
