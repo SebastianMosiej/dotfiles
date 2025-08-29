@@ -37,4 +37,4 @@ sudo mkdir -pm755 /etc/apt/keyrings
 wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 
 sudo apt-get update -yq
-sudo apt-get install -yq --install-recommends winehq-stable
+sudo apt-get install -yq --install-recommends wine
