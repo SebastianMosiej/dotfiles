@@ -15,6 +15,12 @@ install_package()
   fi 
 }
 
+is_deb_repo_present() {
+  local repo=$1
+  deb_repos=$(find /etc/apt/ -name *.list | xargs cat | sed -n -e "s|^ *deb *\(https\?://[a-zA-Z0-9./]*\) .*|\1|p" | uniq)
+  return 0
+}
+
 setupLoging() {
   local logDir="$DIR/log"
   local logFile="install_$(date +'%Y-%m-%d_%H%M%S').log"
