@@ -62,6 +62,7 @@ Keywords=tiling;wm;windowmanager;window;manager;" |  \
   sudo tee /usr/share/xsessions/xsession.desktop > /dev/null
 fi
 
+#configure dunst to solve missing icons problem
 if [ ! -e ~/.config/dunst/dunstrc ]; then
   mkdir -p ~/.config/dunst
   cp /etc/xdg/dunst/dunstrc ~/.config/dunst/.
@@ -72,4 +73,11 @@ if [ ! -e ~/.config/dunst/dunstrc ]; then
 #icon_theme = Papirus, Adwaita
 #enable_recursive_icon_lookup = true
 fi
+
+if [ -e /etc/lightdm/lightdm.conf ]; then
+  #sed -i'' -e "s:#\(user-session=\).*$:/1xsession" /etc/lightdm/lightdm.conf
+elif [-e /etc/lightdm/lightdm.conf.d ]; then
+  grep -Rw "user-sesssion=" /usr/share/lightdm/lightdm.conf.d/*
+fi
+#/usr/share/lightdm/lightdm.conf.d
 echo " Processing i3 DONE"
